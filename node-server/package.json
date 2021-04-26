@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@mozilla/readability": "^0.4.1",
+    "express": "^4.17.1",
+    "jsdom": "^16.5.3",
+    "request-promise": "^4.2.6"
+  }
+}
