@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -6,38 +7,40 @@ const express = require('express');
 const app = express();
 var { Readability } = require('@mozilla/readability');
 var { JSDOM } = require('jsdom');
+
 var path = require('path');
 var fs = require('fs');
-const rp = require('request-promise');
 
-app.get('/a', function(req, res){
-    res.sendFile(path.join(__dirname + '/article.html'));
-});
 
 app.get('/', function (req, res) {
     const url = req.query.page;
 
-    var content = "";
-    rp(url)
-        .then(function(html, callback){
-            //success!
-            var doc = new JSDOM(html.toString(), {
-                url: url
-            });
-            let reader = new Readability(doc.window.document);
-            let article = reader.parse();
+    var article = {}
+    const document = https.request(url, res2 => {
 
-            // fs.appendFile(article.title +'.html', article.content.toString(), function (err) {
-            fs.appendFile('article.html', article.content.toString(), function (err) {
-                if(err) throw err;
+        res2.on('data', (html) => {
+            var doc = new JSDOM(html.toString(), {
+               url: url
             });
-            res.sendFile(path.join(__dirname + '/article.html'));
-            callback();
+
+            const reader = new Readability(doc.window.document);
+            article = reader.parse()
+            console.log("response")
+            console.log(article.content)
+
+            // console.log(reader);
+            // console.log(article.content);
         })
-        .catch(function(err){
-            //handle error
-        });
-    
+    })
+
+    document.on('response', (callback) => {
+        console.log("i was on response")
+        console.log(article)
+        fs.writeFile('article.html', article.content, {encoding: 'utf8'}, (callback) => {
+            res.sendFile(path.join(__dirname + '/article.html'));
+        })
+    });
+    // document.end();
 });
 
 app.listen(port, () => console.log("Running"));

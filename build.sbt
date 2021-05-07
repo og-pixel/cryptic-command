@@ -28,10 +28,12 @@ lazy val nodeServer: Project = Project("node-server", file("node-server"))
   .settings(
     name := "node-server"
   )
+  .aggregate(root)
 
 lazy val nodeRun = taskKey[Unit]("Node Run Project")
 nodeRun := {
   import scala.sys.process._
-
   Seq("node", "node-server/app.js").!
 }
+
+//(compile in Compile) := ((compile in Compile) dependsOn nodeRun).value
