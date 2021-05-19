@@ -1,4 +1,3 @@
-const http = require('http');
 const https = require('https');
 
 const hostname = '127.0.0.1';
@@ -11,36 +10,94 @@ var { JSDOM } = require('jsdom');
 var path = require('path');
 var fs = require('fs');
 
+app.listen(port, () => console.log("Running"));
 
-app.get('/', function (req, res) {
-    const url = req.query.page;
-
-    var article = {}
-    const document = https.request(url, res2 => {
-
-        res2.on('data', (html) => {
-            var doc = new JSDOM(html.toString(), {
-               url: url
-            });
-
-            const reader = new Readability(doc.window.document);
-            article = reader.parse()
-            console.log("response")
-            console.log(article.content)
-
-            // console.log(reader);
-            // console.log(article.content);
-        })
-    })
-
-    document.on('response', (callback) => {
-        console.log("i was on response")
-        console.log(article)
-        fs.writeFile('article.html', article.content, {encoding: 'utf8'}, (callback) => {
-            res.sendFile(path.join(__dirname + '/article.html'));
-        })
-    });
-    // document.end();
+app.get('/', (req, res) => {
+  const url = req.query.page;
+  const options = {
+      hostname: "stackoverflow.com/questions/17690803/node-js-getaddrinfo-enotfound",
+      // hostname: url,
+      path: "/",
+      method: 'GET',
+      port: 443,
+  };
+  var z = main(options, url); 
 });
 
-app.listen(port, () => console.log("Running"));
+async function main(options, url) {
+  console.log("enter");
+  var a = await doRequest(options);
+  console.log("after doRequest");
+  console.log(a);
+  // var b = await parseArticle(a, url);
+  // console.log("after parseArticle");
+  // console.log(b);
+  // var c = await sendFile(b);
+  // console.log("after sendFile");
+  // console.log(c);
+
+  // Promise.resolve(c);
+}
+
+/**
+ * Do a request with options provided.
+ *
+ * @param {Object} options
+ * @return {Promise} a promise of request
+ */
+async function doRequest(options) {
+
+  return new Promise((resolve, reject) => {
+      const req = https.get(options, (res) => {
+        res.setEncoding('utf8');
+        let responseBody = '';
+        res.on('data', (chunk) => {
+          responseBody += chunk;
+        });
+
+        res.on('end', () => {
+          resolve(responseBody);
+        });
+
+        res.on('error', (err) => {
+          reject(err);
+        });
+
+      });
+      req.on('error', (err) => {
+        reject(err);
+      });
+
+      req.on('end', () => {          
+        resolve();
+      });
+  
+      req.end();
+  });
+
+}
+
+// async function sendFile(article){
+//   return new Promise((resolve, reject) => {
+    
+//   })
+// }
+
+async function saveFile(article){
+  return new Promise((resolve, reject) => {            
+      fs.writeFile('article.html', article.content, {encoding: 'utf8'}, (callback) => {
+        // resolve(res.sendFile(path.join(__dirname + '/article.html')));
+        resolve(true);
+      })
+  });
+}
+
+async function parseArticle(responseBody, url) {
+  var doc = new JSDOM(responseBody.toString(), {
+      url: url
+  });
+  const reader = new Readability(doc.window.document);
+  let article = reader.parse();
+
+  await Promise.resolve(article);
+}
