@@ -7,3 +7,5 @@ import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
 class SimpleUser(val userName: String, val userID: Long) extends User[SimpleArticle]:
 
   override val collection: Iterable[SimpleArticle] = ArrayBuffer()
+
+  override def addArticle(article: SimpleArticle): Boolean = ???

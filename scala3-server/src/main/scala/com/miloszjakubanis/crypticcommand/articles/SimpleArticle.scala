@@ -1,4 +1,3 @@
 package com.miloszjakubanis.crypticcommand.articles
 
-class SimpleArticle extends Article[String]:
-  var content: String = ""
+class SimpleArticle(var content: String) extends Article[String]

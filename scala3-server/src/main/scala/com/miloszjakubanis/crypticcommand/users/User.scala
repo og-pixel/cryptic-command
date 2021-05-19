@@ -9,4 +9,8 @@ trait User[T <: Article[_]] {
   val userName: String
 
   val collection: Iterable[T]
+
+  def addArticle(article: T): Boolean 
+
+  
 }

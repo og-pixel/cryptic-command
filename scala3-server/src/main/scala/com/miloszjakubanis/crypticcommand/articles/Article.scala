@@ -5,6 +5,3 @@ import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
 
 trait Article[T]:
   var content: T
-
-object Article:
-  given String = "dasdas"

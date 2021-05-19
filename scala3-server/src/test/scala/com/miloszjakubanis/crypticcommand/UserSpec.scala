@@ -5,9 +5,9 @@ import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
 import com.miloszjakubanis.crypticcommand.articles.{Article, SimpleArticle}
 import com.miloszjakubanis.crypticcommand.users.User
 
-object UserSpec extends TestSuite {
+object UserSpec extends TestSuite:
 
-  override def tests: Tests = Tests {
+  override def tests: Tests = Tests{
     val tests = Tests {
       test("Create Factory and User") {
         val factory = SimpleUserFactory()
@@ -27,9 +27,8 @@ object UserSpec extends TestSuite {
         assert(c.userID == 3)
         assert(false)
       }
-      test("fail") {
+      test("fail"){
         assert(false)
-      }
     }
   }
 }
