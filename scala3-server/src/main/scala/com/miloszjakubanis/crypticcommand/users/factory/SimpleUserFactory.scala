@@ -1,8 +1,7 @@
 package com.miloszjakubanis.crypticcommand.users.factory
-import com.miloszjakubanis.crypticcommand.articles.*
-import com.miloszjakubanis.crypticcommand.users.SimpleUser
-import com.miloszjakubanis.crypticcommand.users.User
-import java.util.Collection
+import com.miloszjakubanis.crypticcommand.articles.{Article, SimpleArticle}
+import com.miloszjakubanis.crypticcommand.users.{SimpleUser, User, AdministatorUser}
+import com.miloszjakubanis.crypticcommand.users.privilege.BasicUserPrivilege
 
 /**
  * The most basic factory
@@ -16,4 +15,7 @@ class SimpleUserFactory extends UserFactory[SimpleUser]:
     nextId
 
   def createUser(name: String): SimpleUser =
-   SimpleUser(name, nextUserId)
+    SimpleUser(name, nextUserId)
+
+  def createAdmin(name: String): AdministatorUser =  
+    AdministatorUser(name, nextUserId)

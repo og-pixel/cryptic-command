@@ -1,36 +1,43 @@
 package com.miloszjakubanis.crypticcommand.users.privilege
 
 import scala.collection.mutable.ArrayBuffer
+import com.miloszjakubanis.crypticcommand.users.{User, SimpleUser}
+import com.miloszjakubanis.crypticcommand.users.AdministatorUser
+import com.miloszjakubanis.crypticcommand.articles.Article
 
-trait Privilege:
-  def executePrivilege: Unit
+sealed trait Privilege[Input, Output]:
+  def executePrivilege(arg: Input): Output
 
-object AddArticlePrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object AddArticlePrivilege extends Privilege[Article[_], Boolean]:
+  def executePrivilege(arg: Article[_]): Boolean = true
 
-object RemoveArticlePrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object RemoveArticlePrivilege extends Privilege[String, Article[_]]:
+  def executePrivilege(arg: String): Article[_] = null
 
-object AddUsersPrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object AddUsersPrivilege extends Privilege[User[_], Boolean]:
+  def executePrivilege(arg: User[_]): Boolean = true
 
-object RemoveUserPrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object RemoveUserPrivilege extends Privilege[String, User[_]]:
+  def executePrivilege(arg: String): User[_] = null
 
-object AddPrivilegeForUserPrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object AddPrivilegeForUserPrivilege extends Privilege[Privilege[_, _], Boolean]:
+  def executePrivilege(arg: Privilege[_, _]): Boolean = true
 
-object RemovePrivilegeForUserPrivilege extends Privilege:
-  def executePrivilege: Unit = println
+object RemovePrivilegeForUserPrivilege extends Privilege[Privilege[_, _], Boolean]:
+  def executePrivilege(arg: Privilege[_, _]): Boolean = true
 
 /////////////////////////////////////////
 
 trait PrivilegeState:
-  val list: Array[Privilege]
-  def listPrivilages = list.foreach(e => println(e.getClass))
+  //TODO change to mutable data structure, some sort of map maybe too
+  val list: Array[Privilege[_, _]]
 
+//TODO Maybe they need to be classes
 object BasicUserPrivilege extends PrivilegeState:
-  override val list = Array(AddArticlePrivilege, RemoveArticlePrivilege)
+  override val list = Array(
+    AddArticlePrivilege,
+     RemoveArticlePrivilege
+     )
 
 object AdministatorPrivilege extends PrivilegeState:
   override val list = Array(
@@ -38,4 +45,6 @@ object AdministatorPrivilege extends PrivilegeState:
     RemoveArticlePrivilege,
     AddUsersPrivilege,
     RemoveUserPrivilege,
-    )
+    AddPrivilegeForUserPrivilege,
+    RemovePrivilegeForUserPrivilege
+  )

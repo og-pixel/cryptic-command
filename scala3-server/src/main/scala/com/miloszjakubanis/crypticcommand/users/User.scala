@@ -2,9 +2,7 @@ package com.miloszjakubanis.crypticcommand.users
 
 import java.util.Collection
 import com.miloszjakubanis.crypticcommand.articles.Article
-import com.miloszjakubanis.crypticcommand.users.privilege.PrivilegeState
-import com.miloszjakubanis.crypticcommand.users.privilege.BasicUserPrivilege
-import com.miloszjakubanis.crypticcommand.users.privilege.Privilege
+import com.miloszjakubanis.crypticcommand.users.privilege.*
 
 
 trait User[T <: Article[_]] {
@@ -13,9 +11,10 @@ trait User[T <: Article[_]] {
   val userName: String
 
   val storage: SimpleNestedStorage[T]
-  var privilege: PrivilegeState
+  private[this] var _privilege: PrivilegeState = BasicUserPrivilege
 
-  def executePrivilege(privilege: Privilege): Unit = ???
+  def changePrivilege(privilege: PrivilegeState): Unit = 
+    this._privilege = privilege
 
   def addArticle(article: T): Option[T] =
    storage.storage.put(article.title, article)
@@ -25,5 +24,11 @@ trait User[T <: Article[_]] {
 
   def findArticle(key: String): Option[T] = 
    storage.storage.get(key)
+
+  def privilege = _privilege
+
+  def callPrivilege[Input, Output](x: Privilege[Input, Output], input: Input): Output =
+    if privilege.list.contains(x) then  x.executePrivilege(input)
+    else throw new RuntimeException("this uses is not allowed to execute this command")
 
 }

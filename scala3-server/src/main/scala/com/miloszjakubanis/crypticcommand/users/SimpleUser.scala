@@ -13,4 +13,4 @@ class SimpleUser(
   val userID: Long,
   ) extends User[SimpleArticle]:
   override val storage: SimpleNestedStorage[SimpleArticle] = SimpleNestedStorage()
-  var privilege = BasicUserPrivilege
+  private var _privilege = BasicUserPrivilege

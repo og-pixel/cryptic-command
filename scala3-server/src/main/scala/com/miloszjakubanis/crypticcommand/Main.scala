@@ -1,57 +1,19 @@
 package com.miloszjakubanis.crypticcommand
-
 import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
-import org.apache.commons.cli.*
-import com.miloszjakubanis.crypticcommand.users.AdministatorUser
-import com.miloszjakubanis.crypticcommand.users.User
+import com.miloszjakubanis.crypticcommand.users.{User, AdministatorUser}
 import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
-// import org.apache.commons.cli.CommandLineParser
-// import org.apache.commons.cli.DefaultParser
+import com.miloszjakubanis.crypticcommand.users.privilege.{RemoveUserPrivilege, AddArticlePrivilege}
 
-object Main {
+@main def hello =
+  val factory = SimpleUserFactory()
+  val admin = factory.createAdmin("og_pixel")
+  val user1 = factory.createUser("pixel")
+  val user2 = factory.createUser("Daniel")
 
-  def main(args: Array[String]) = {
-    val factory = SimpleUserFactory()
-    val a = factory.createUser("Milosz")
-    val b = factory.createUser("Thoams")
-    val c = factory.createUser("Patrick")
-    val d = factory.createUser("Richard")
+  Array(admin, user1, user2).foreach(e => 
+  println(
+  s"""|ID: ${e.userID}
+      |Name: ${e.userName}
+  """.stripMargin))
 
-    Array(a, b, c, d).foreach(e => {
-      println(s"""
-      |ID:     : ${e.userID}
-      |Username: ${e.userName}
-      |
-    """.stripMargin)
-    })
-
-    val options = Options()
-    options.addOption("a", false, "Add two numbers")
-    val parser: CommandLineParser = DefaultParser()
-
-    val cmd: CommandLine = parser.parse(options, args)
-
-    if cmd.hasOption("a") 
-    then println("you chose option a")
-    else println("you didn't!")
-
-    a.privilege.listPrivilages
-    a.addArticle(SimpleArticle())
-  }
-
-  // def addOption1 = ???
-  // def addOption2 = ???
-  // def addOption3 = ???
-
-}
-
-// object MinimalApplication extends cask.MainRoutes:
-//   @cask.get("/")
-//   def hello() = 
-//     "Hello World!"
-  
-//   @cask.post("/do-thing")
-//   def doThing(request: cask.Request) = 
-//     request.text().reverse
-  
-//   initialize()
+  val z = user1.callPrivilege(AddArticlePrivilege, SimpleArticle("content"))

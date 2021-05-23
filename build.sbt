@@ -28,9 +28,9 @@ lazy val scala3: Project = Project("scala3-server", file("scala3-server"))
     scalaVersion := SCALA_3,
     organization := "com.miloszjakubanis",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %% "cask" % "0.7.11",
-      "commons-cli" % "commons-cli" % "1.4",
-      "com.lihaoyi" %% "utest" % "0.7.10" % Test,
+      "com.lihaoyi" %% "cask" % "0.7.11" withSources,
+      "commons-cli" % "commons-cli" % "1.4" withSources,
+      "com.lihaoyi" %% "utest" % "0.7.10" % Test withSources,
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     scalacOptions ++= Seq(

@@ -3,5 +3,5 @@ import com.miloszjakubanis.crypticcommand.articles.*
 import com.miloszjakubanis.crypticcommand.users.privilege.*
 
 class AdministatorUser(val userName: String, val userID: Long) extends User[SimpleArticle]:
-  var privilege: PrivilegeState = AdministatorPrivilege
+  private var _privilege: PrivilegeState = AdministatorPrivilege
   val storage: SimpleNestedStorage[SimpleArticle] = SimpleNestedStorage()
