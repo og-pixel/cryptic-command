@@ -29,6 +29,8 @@ object UserSpec extends TestSuite:
       }
       test("fail"){
         assert(false)
-    }
+      }
+
+      test("lo") {}
   }
 }

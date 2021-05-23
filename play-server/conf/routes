@@ -4,7 +4,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           com.miloszjakubanis.crypticcommand.controllers.HomeController.index()
+GET     /                           com.miloszjakubanis.crypticcommand.playserver.controllers.HomeController.index()
 
 
 # Map static resources from the /public folder to the /assets URL path

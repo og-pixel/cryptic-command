@@ -1,16 +1,15 @@
-package com.miloszjakubanis.crypticcommand.controllers
+package com.miloszjakubanis.crypticcommand.playserver.controllers
 
 import javax.inject._
 import play.api.mvc._
+import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
 
 @Singleton
 class HomeController @Inject() (cc: ControllerComponents)
     extends AbstractController(cc) {
 
-  println("hello world")
-
   def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(com.miloszjakubanis.crypticcommand.views.html.index())
+    Ok(com.miloszjakubanis.crypticcommand.playserver.views.html.index())
   }
 
 }

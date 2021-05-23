@@ -1,4 +1,4 @@
-package com.miloszjakubanis.crypticcommand
+package com.miloszjakubanis.crypticcommand.playserver
 
 package object readability {
 

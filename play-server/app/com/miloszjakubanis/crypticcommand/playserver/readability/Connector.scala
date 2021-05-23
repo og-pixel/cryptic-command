@@ -1,4 +1,4 @@
-package com.miloszjakubanis.crypticcommand.readability
+package com.miloszjakubanis.crypticcommand.playserver.readability
 
 import java.net.{HttpURLConnection, URL}
 import scala.io.Source

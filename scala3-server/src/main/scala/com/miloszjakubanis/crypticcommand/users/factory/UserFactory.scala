@@ -5,5 +5,4 @@ import com.miloszjakubanis.crypticcommand.articles.Article
 
 trait UserFactory[T <: User[_]]:
 
-  def nextUserId: Long
   def createUser(name: String): T

@@ -11,7 +11,7 @@ import java.util.Collection
 class SimpleUserFactory extends UserFactory[SimpleUser]:
 
   private[this] var nextId: Long = 0
-  def nextUserId: Long = 
+  private[this] def nextUserId: Long = 
     nextId += 1
     nextId
 
