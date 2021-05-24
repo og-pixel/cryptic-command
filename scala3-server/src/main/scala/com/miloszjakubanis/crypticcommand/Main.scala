@@ -2,7 +2,7 @@ package com.miloszjakubanis.crypticcommand
 import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
 import com.miloszjakubanis.crypticcommand.users.{User, AdministatorUser}
 import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
-import com.miloszjakubanis.crypticcommand.users.privilege.{RemoveUserPrivilege, AddArticlePrivilege}
+import com.miloszjakubanis.crypticcommand.users.privilege.{RemoveUserFunction, AddArticleFunction}
 
 @main def hello =
   val factory = SimpleUserFactory()
@@ -16,4 +16,8 @@ import com.miloszjakubanis.crypticcommand.users.privilege.{RemoveUserPrivilege, 
       |Name: ${e.userName}
   """.stripMargin))
 
-  val z = user1.callPrivilege(AddArticlePrivilege, SimpleArticle("content"))
+  val z = user1(AddArticleFunction, SimpleArticle("HELLO"))
+  user1.storage().foreach((k,v) => {
+    println(k)
+    println(v.content)
+  })
