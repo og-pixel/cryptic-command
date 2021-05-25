@@ -11,6 +11,6 @@ import com.miloszjakubanis.crypticcommand.users.privilege.BasicUserPrivilege
 class SimpleUser(
   val userName: String,
   val userID: Long,
-  private var _privilege:PrivilegeState = BasicUserPrivilege,
+  private var _privilege: PrivilegeState = BasicUserPrivilege,
   ) extends User:
   override val storage: SimpleNestedStorage[Article[_]] = SimpleNestedStorage()

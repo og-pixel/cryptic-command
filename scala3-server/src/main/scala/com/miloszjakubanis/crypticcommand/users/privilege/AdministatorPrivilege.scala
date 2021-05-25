@@ -11,3 +11,5 @@ object AdministatorPrivilege extends PrivilegeState:
     AddFunctionForUser,
     RemoveFunctionForUser
   )
+
+class AdministatorPrivilege

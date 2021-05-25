@@ -2,9 +2,10 @@ package com.miloszjakubanis.crypticcommand
 import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
 import com.miloszjakubanis.crypticcommand.users.{User, AdministatorUser}
 import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
-import com.miloszjakubanis.crypticcommand.users.functions.{RemoveUserFunction, AddArticleFunction}
+import com.miloszjakubanis.crypticcommand.users.functions.{RemoveUserFunction, AddArticleFunction, SuperAddArticleFunction}
 import com.miloszjakubanis.crypticcommand.users.functions.UserFunction
 import com.miloszjakubanis.crypticcommand.users.privilege.*
+import com.miloszjakubanis.crypticcommand.users.functions.SuperUserFunctionDecorator
 
 @main def hello =
   val factory = SimpleUserFactory()
@@ -19,6 +20,8 @@ import com.miloszjakubanis.crypticcommand.users.privilege.*
       |Name: ${e.userName}
   """.stripMargin))
 
+  user1(SuperAddArticleFunction, new SimpleArticle(""))
+  user1(SuperUserFunctionDecorator, new SimpleArticle(""))
   // user1(new AddArticleFunction(), SimpleArticle("HELLO"))
   // userSpecial(new AddArticleFunction(), SimpleArticle("HELLO"))
   // userSpecial(AddArticleFunction, SimpleArticle("HELLO"))
