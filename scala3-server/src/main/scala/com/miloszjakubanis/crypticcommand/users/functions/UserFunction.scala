@@ -12,13 +12,13 @@ abstract class UserFunctionDecorator[Input, Output](
   protected val function: UserFunction[Input, Output]
   ) extends UserFunction[Input, Output]:
 
-  def apply(arg: Input)(using User): Output = 
+  def apply(arg: Input)(using User): Output =
     function.apply(arg)
 
 
-object SuperUserFunctionDecorator 
+object SuperUserFunctionDecorator
   extends UserFunctionDecorator[Article[_], Option[Article[_]]](AddArticleFunction):
 
-  override def apply(arg: Article[_])(using User): Option[Article[_]] = 
+  override def apply(arg: Article[_])(using User): Option[Article[_]] =
     println("calling superuserfunctiondecorator")
     function.apply(arg)
