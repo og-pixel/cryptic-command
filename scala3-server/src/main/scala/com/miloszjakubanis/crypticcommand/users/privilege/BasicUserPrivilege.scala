@@ -5,7 +5,7 @@ import com.miloszjakubanis.crypticcommand.users.functions.*
 object BasicUserPrivilege extends PrivilegeState:
   override val list = Array(
     AddArticleFunction,
-    SuperUserFunctionDecorator, //TODO remove, for debugging
+    AddArticleFunctionX, //TODO remove, for debugging
     RemoveArticleFunction
   )
 

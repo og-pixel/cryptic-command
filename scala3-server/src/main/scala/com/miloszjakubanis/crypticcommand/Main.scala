@@ -2,10 +2,9 @@ package com.miloszjakubanis.crypticcommand
 import com.miloszjakubanis.crypticcommand.users.factory.SimpleUserFactory
 import com.miloszjakubanis.crypticcommand.users.{User, AdministatorUser}
 import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
-import com.miloszjakubanis.crypticcommand.users.functions.{RemoveUserFunction, AddArticleFunction}
+import com.miloszjakubanis.crypticcommand.users.functions.{RemoveUserFunction, AddArticleFunction, AddArticleFunctionX}
 import com.miloszjakubanis.crypticcommand.users.functions.UserFunction
 import com.miloszjakubanis.crypticcommand.users.privilege.*
-import com.miloszjakubanis.crypticcommand.users.functions.SuperUserFunctionDecorator
 
 object Main:
   def main(args: Array[String]) =
@@ -21,7 +20,8 @@ object Main:
         |Name: ${e.userName}
     """.stripMargin))
   
-    user1(SuperUserFunctionDecorator, new SimpleArticle(""))
+    user1(AddArticleFunction, new SimpleArticle(""))
+    user1(AddArticleFunctionX, new SimpleArticle(""))
     // user1(new AddArticleFunction(), SimpleArticle("HELLO"))
     // userSpecial(new AddArticleFunction(), SimpleArticle("HELLO"))
     // userSpecial(AddArticleFunction, SimpleArticle("HELLO"))
