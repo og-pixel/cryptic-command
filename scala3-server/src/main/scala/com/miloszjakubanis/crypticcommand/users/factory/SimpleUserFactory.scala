@@ -1,7 +1,11 @@
 package com.miloszjakubanis.crypticcommand.users.factory
 import com.miloszjakubanis.crypticcommand.articles.{Article, SimpleArticle}
 import com.miloszjakubanis.crypticcommand.users.{SimpleUser, User, AdministatorUser}
+// import com.miloszjakubanis.crypticcommand.users.functions.BasicUserPrivilege
+// import com.miloszjakubanis.crypticcommand.users.functions.PrivilegeState
 import com.miloszjakubanis.crypticcommand.users.privilege.BasicUserPrivilege
+import com.miloszjakubanis.crypticcommand.users.privilege.PrivilegeState
+
 
 /**
  * The most basic factory
@@ -16,6 +20,9 @@ class SimpleUserFactory extends UserFactory[SimpleUser]:
 
   def createUser(name: String): SimpleUser =
     SimpleUser(name, nextUserId)
+
+  def createUserCustom(name: String, privilege: PrivilegeState): SimpleUser =
+    SimpleUser(name, nextUserId, privilege)
 
   def createAdmin(name: String): AdministatorUser =  
     AdministatorUser(name, nextUserId)

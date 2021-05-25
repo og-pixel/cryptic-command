@@ -2,10 +2,11 @@ package com.miloszjakubanis.crypticcommand.users
 
 import java.util.Collection
 import com.miloszjakubanis.crypticcommand.articles.Article
+import com.miloszjakubanis.crypticcommand.users.functions.*
 import com.miloszjakubanis.crypticcommand.users.privilege.*
 
 
-trait User/*[T <: Article[_]]*/ {
+trait User {
 
   private[this] given User = this
   val userID: Long
@@ -18,7 +19,7 @@ trait User/*[T <: Article[_]]*/ {
     this._privilege = privilege
 
   def addArticle(article: Article[_]): Option[Article[_]] =
-   storage.storage.put(article.title, article)
+    apply(AddArticleFunction, article)
 
   def removeArticle(key: String): Option[Article[_]] =
    storage.storage.remove(key)
@@ -27,6 +28,9 @@ trait User/*[T <: Article[_]]*/ {
    storage.storage.get(key)
 
   def privilege = _privilege
+
+  def runFunction[Input, Output](x: UserFunction[Input, Output], input: Input): Output = 
+    apply(x, input)
 
   def apply[Input, Output](x: UserFunction[Input, Output], input: Input): Output =
     if privilege.list.contains(x) then  x.apply(input)
