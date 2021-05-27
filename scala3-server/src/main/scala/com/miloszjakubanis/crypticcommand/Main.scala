@@ -41,7 +41,7 @@ object Main:
       
     val z = user1(AddArticleFunction, SimpleArticle("Hello World"))
     println(z.get.content)
-    Storage.is
+    Storage.defaultStorageExists
 
     // user1.apply(CustomUserFunction(AddArticleFunction()))
 

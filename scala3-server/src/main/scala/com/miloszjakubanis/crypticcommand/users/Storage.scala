@@ -9,22 +9,34 @@ import java.io.IOException
 import java.nio.file.Paths
 
 object Storage:
-  def is = 
-    if Files.isDirectory(Paths.get(System.getProperty("user.home") + "/hommmo")) then true
-      else 
-        Files.createDirectory(Paths.get(System.getProperty("user.home") + "/hommmo"))
-        if Files.isDirectory(Paths.get(System.getProperty("user.home") + "/hommmo")) then true
-        else false
 
+  val homeFolderString = System.getProperty("user.home") + s"/$DEFAULT_HOME_FOLDER"
+  val homeFolder = Paths.get(homeFolderString)
+  val configFolder = Paths.get(homeFolderString + "/config")
+  val logsFolder = Paths.get(homeFolderString + "/logs")
+  val usersFolder = Paths.get(homeFolderString + "/users")
+  val storageFolder = Paths.get(homeFolderString + "/users/storage")
+  val debugFolder = Paths.get(homeFolderString + "/.debug")
 
-
+  def defaultStorageExists: Unit = 
+    Array(
+     homeFolder,
+     configFolder,
+     logsFolder,
+     usersFolder,
+     storageFolder,
+     debugFolder,
+     ).foreach(e => {
+      if !Files.isDirectory(e) then 
+          Files.createDirectory(e)
+          if !Files.isDirectory(e) then 
+            throw RuntimeException("This should not happen")
+    })
 
 
 trait Storage[T]:
   val storage: T
   def apply(): T = storage
-
-// trait FileStorage[T]:
 
 
 trait SimpleStorage extends Storage[String]
