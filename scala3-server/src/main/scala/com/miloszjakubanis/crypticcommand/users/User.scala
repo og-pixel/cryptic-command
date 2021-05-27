@@ -22,10 +22,10 @@ trait User {
     apply(AddArticleFunction, article)
 
   def removeArticle(key: String): Option[Article[_]] =
-   storage.storage.remove(key)
+    storage.storage.remove(key)
 
   def findArticle(key: String): Option[Article[_]] = 
-   storage.storage.get(key)
+    storage.storage.get(key)
 
   def privilege = _privilege
 
@@ -33,7 +33,8 @@ trait User {
     apply(x, input)
 
   def apply[Input, Output](x: UserFunction[Input, Output], input: Input): Output =
-    if privilege.list.contains(x) then  x.apply(input)
-    else throw new RuntimeException("this uses is not allowed to execute this command")
+    x(input)
+    // if privilege.list.contains(x) then  x.apply(input)
+    // else throw new RuntimeException("this uses is not allowed to execute this command")
 
 }
