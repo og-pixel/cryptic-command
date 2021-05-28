@@ -3,7 +3,7 @@ import com.miloszjakubanis.crypticcommand.articles.Article
 import java.util.Collection
 import scala.collection.mutable.ArrayBuffer
 import com.miloszjakubanis.crypticcommand.articles.SimpleArticle
-// import com.miloszjakubanis.crypticcommand.users.SimpleNestedNodeStorage
+import com.miloszjakubanis.crypticcommand.users.storage.{Storage, SimpleNestedStorage}
 import scala.collection.mutable.HashMap
 import com.miloszjakubanis.crypticcommand.users.privilege.PrivilegeState
 import com.miloszjakubanis.crypticcommand.users.privilege.BasicUserPrivilege

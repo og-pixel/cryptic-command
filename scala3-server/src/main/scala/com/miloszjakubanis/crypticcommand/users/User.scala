@@ -1,9 +1,12 @@
 package com.miloszjakubanis.crypticcommand.users
 
 import java.util.Collection
+
 import com.miloszjakubanis.crypticcommand.articles.Article
 import com.miloszjakubanis.crypticcommand.users.functions.*
 import com.miloszjakubanis.crypticcommand.users.privilege.*
+import com.miloszjakubanis.crypticcommand.users.storage.Storage
+import com.miloszjakubanis.crypticcommand.users.storage.SimpleNestedStorage
 
 
 trait User {
