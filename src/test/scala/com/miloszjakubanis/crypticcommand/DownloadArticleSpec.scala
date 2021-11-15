@@ -14,9 +14,11 @@ object DownloadArticleSpec extends TestSuite with StrictLogging {
         val db = new FSDatabase(Location("data", LocationPlace.ROOT))
         val server = new ReadableServer(db, new ServerConfig(c))
 
+//        server.close()
+
       }
 
-      DefaultParser(Array[String](), start)
+      DefaultParser(Array[String]("-pi", "9999"), start)
     }
   }
 }
