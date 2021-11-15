@@ -6,7 +6,7 @@ import scopt.OptionParser
 
 import scala.jdk.CollectionConverters.MapHasAsJava
 
-object MainParser {
+object DefaultParser {
 
   private[this] val defaultConfigValue: Config = ConfigFactory.parseMap(
     (BuildInfo.toMap ++

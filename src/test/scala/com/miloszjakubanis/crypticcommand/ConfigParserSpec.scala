@@ -17,14 +17,14 @@ object ConfigParserSpec extends TestSuite with StrictLogging {
 
     test("Create parser with default args") - {
       val config =
-        MainParser.parser.parse(Array[String](), MainParser.config).get
+        DefaultParser.parser.parse(Array[String](), DefaultParser.config).get
       assertValue(config, "port.in", "1")
       assertValue(config, "port.out", "2")
     }
 
     test("Create parser with args") - {
       val config =
-        MainParser.parser.parse(correctArgs, MainParser.config).get
+        DefaultParser.parser.parse(correctArgs, DefaultParser.config).get
       assertValue(config, "port.in", "11")
       assertValue(config, "port.out", "22")
     }
