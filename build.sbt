@@ -1,16 +1,27 @@
 lazy val Scala_2 = "2.13.7"
 lazy val Scala_3 = "3.1.0"
 
+lazy val thoughtseize = ProjectRef(uri("https://github.com/og-pixel/thoughtseize.git#master"), "thoughtseize")
+//lazy val thoughtseize = ProjectRef(uri("https://github.com/og-pixel/thoughtseize/tree/master"), "thoughtseize")
+
 lazy val crypticcommand: Project = project.in(file("."))
   .enablePlugins(PackPlugin)
+  .dependsOn(thoughtseize)
   .settings(
-    name := "Cryptic Command",
+    name := "Cryptic Commanda",
     organization := "com.miloszjakubanis",
     scalaVersion := Scala_2,
     version := "0.0.1",
     libraryDependencies ++= Seq(
+      //Create config files and CLI
       "com.typesafe" % "config" % "1.4.1",
-      "com.lihaoyi" %% "utest" % "0.7.10" % Test
+      //Netty Async Network Library
+      "io.netty" % "netty-all" % "4.1.59.Final",
+      //Logback
+      "ch.qos.logback" % "logback-classic" % "1.2.6",
+      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
+      //Testing Framework
+      "com.lihaoyi" %% "utest" % "latest.integration" % Test,
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     scalacOptions ++= Seq(

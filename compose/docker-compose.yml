@@ -1,0 +1,8 @@
+version: '3'
+services: 
+  cryptic:
+    image: miloszjakubanis/cryptic:latest
+    container_name: cryptic
+    volumes:
+      - "/home/og_pixel/data:/data"
+        #    restart: unless-stopped

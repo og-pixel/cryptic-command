@@ -1,0 +1,31 @@
+<!--<configuration scan="true" scanPeriod="30 seconds">-->
+<!--  <shutdownHook/>-->
+<!--  <contextName>m2g-silo</contextName>-->
+<!--  <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--    <file>/home/og_pixel/workspace/datasignals/codasip-wt-readers/logs/m2g-silo.log</file>-->
+<!--    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--        <fileNamePattern>/logs/${CONTEXT_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--        <maxFileSize>10MB</maxFileSize>-->
+<!--        <maxHistory>25</maxHistory>-->
+<!--        <totalSizeCap>1GB</totalSizeCap>-->
+<!--    </rollingPolicy>-->
+<!--    <encoder>-->
+<!--        <pattern>%d %contextName %-5level [%thread] %logger{20}: %msg%n</pattern>-->
+<!--    </encoder>-->
+<!--  </appender>-->
+<!--  <logger name="datasignals" level="TRACE"/>-->
+<!--  <root level="DEBUG">-->
+<!--    <appender-ref ref="ROLLING" />-->
+<!--  </root>-->
+<!--</configuration>-->
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

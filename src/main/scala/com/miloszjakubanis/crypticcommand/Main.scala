@@ -1,23 +1,24 @@
 package com.miloszjakubanis.crypticcommand
 
-import java.io.File
-import scala.sys.process._
+import com.miloszjakubanis.crypticcommand.server.ReadableServer
 
 object Main extends App {
-//  val res = CommandRunner.runCommand("curl", "https://apibakery.com/blog/django-settings-howto/")
+
+//  try{
+//    Files.createDirectory(Paths.get("/data"))
+//  }catch {
+//    case e: FileAlreadyExistsException => ()
+//    case e: Exception => e.printStackTrace()
+//  }
 //
+//  val a = Seq("bash", "-c", "curl -s https://arstechnica.com/gadgets/2021/11/psa-apple-isnt-actually-patching-all-the-security-holes-in-older-versions-of-macos/") #| Seq("sh", "-c", "readable -Cq") #> new File("/data/OUTPUT.html")
+//  val res = a.!!
 //
-//  val p = res.get
-//  val res2 = CommandRunner.lol(p)
-//  val res2 = CommandRunner.runCommand("readable", p)
+//  println(s"written file to $res")
+//  val file = Files.readString(Paths.get("/data/OUTPUT.html"))
+//  if(!file.isBlank) println("File written")
+//  else println("File error")
 
-
-//  val a = Seq("bash", "-c", "curl https://apibakery.com/blog/django-settings-howto/") #| Seq("sh", "-c", "readable", "-S") #> new File("/home/og_pixel/OUTPUT.html")
-  val a = Seq("bash", "-c", "curl -s https://www.scala-js.org/doc/tutorial/basic/index.html") #| Seq("sh", "-c", "readable -q") #> new File("/home/og_pixel/OUTPUT.html")
-  val res = a.!!
-//  println(res)
-
-//  val b = a.lazyLines
-//  b.foreach(e => println(e))
+  val server = new ReadableServer()
 
 }
