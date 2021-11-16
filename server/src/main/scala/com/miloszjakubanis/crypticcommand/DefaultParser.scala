@@ -1,7 +1,7 @@
 package com.miloszjakubanis.crypticcommand
 
 import com.typesafe.config.{Config, ConfigFactory, ConfigValueFactory}
-import hello.BuildInfo
+import helloServer.BuildInfo
 import scopt.OptionParser
 
 import scala.jdk.CollectionConverters.MapHasAsJava

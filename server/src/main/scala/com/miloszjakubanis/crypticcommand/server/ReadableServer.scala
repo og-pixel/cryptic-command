@@ -50,7 +50,8 @@ class ReadableServer(
       .childOption(ChannelOption.SO_KEEPALIVE, java.lang.Boolean.TRUE)
 
     val f : ChannelFuture = b.bind(portIn).sync()
-    f.channel().closeFuture().sync()
+    //TODO it does make it not wait
+//    f.channel().closeFuture().sync()
 
     f.channel()
   }
