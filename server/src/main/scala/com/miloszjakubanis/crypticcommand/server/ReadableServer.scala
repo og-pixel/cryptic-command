@@ -1,5 +1,6 @@
 package com.miloszjakubanis.crypticcommand.server
 
+import com.miloszjakubanis.flusterstorm.job.Job
 import com.miloszjakubanis.thoughtseize.storage.Database
 import com.typesafe.scalalogging.StrictLogging
 import io.netty.bootstrap.ServerBootstrap
@@ -92,6 +93,10 @@ class ReadableServer(
         logger.error("An error occurred when downloading a file", e.getLocalizedMessage)
         Failure(e)
     }
+  }
+
+  def runJob(job: Job[_, _]): Unit = {
+
   }
 
 }

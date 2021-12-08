@@ -1,7 +1,7 @@
 package com.miloszjakubanis.crypticcommand.server
 
-import com.miloszjakubanis.crypticcommand.record.ResponseRecord
 import io.netty.channel.{ChannelFutureListener, ChannelHandlerContext, ChannelInboundHandlerAdapter}
+import com.miloszjakubanis.crypticcommand.record.ResponseRecord
 
 class ServerProcessingHandler extends ChannelInboundHandlerAdapter {
   @throws[Exception]

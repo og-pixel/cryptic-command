@@ -18,8 +18,14 @@ lazy val projectSettings = Seq(
     "ch.qos.logback" % "logback-classic" % "1.2.6",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
     //Testing Framework
-    "com.lihaoyi" %% "utest" % "latest.integration" % Test
+    "com.lihaoyi" %% "utest" % "latest.integration" % Test,
+    //Circe for JSon Parsing
+    "io.circe" %% "circe-core" % "0.14.1",
+    "io.circe" %% "circe-generic" % "0.14.1",
+    "io.circe" %% "circe-parser" % "0.14.1"
   ),
+//  githubOwner := "supermanue",
+//  githubRepository := "example-library",
   testFrameworks += new TestFramework("utest.runner.Framework"),
   scalacOptions ++= Seq(
     "-feature",
@@ -27,7 +33,12 @@ lazy val projectSettings = Seq(
     "-deprecation",
     "-unchecked"
   ),
-  packMain := Map("hello" -> "com.miloszjakubanis.crypticcommand.Main")
+  packMain := Map("hello" -> "com.miloszjakubanis.crypticcommand.Main"),
+  resolvers := Seq(
+    "Sonatype Nexus Repository Manager" at s"https://artifact.miloszjakubanis.com/repository/milosz/",
+  ),
+  //Credentials
+  credentials += Credentials(new File(Path.userHome.absolutePath + "/.nexus/credentials"))
 )
 
 //Projects
@@ -45,29 +56,42 @@ lazy val client: Project = project
   .in(file("client"))
   .enablePlugins(PackPlugin)
   .enablePlugins(BuildInfoPlugin)
-  .dependsOn(thoughtseize/*, commonProject*/)
+  .dependsOn(/*thoughtseize,*/ commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Client",
-    buildInfoPackage := "helloClient"
+    buildInfoPackage := "helloClient",
+    libraryDependencies ++= Seq(
+      "com.miloszjakubanis" %% "thoughtseize" % "0.0.1",
+      "com.miloszjakubanis" %% "flusterstorm" % "0.0.1",
+    ),
   )
 
 lazy val server: Project = project
   .in(file("server"))
   .enablePlugins(PackPlugin)
   .enablePlugins(BuildInfoPlugin)
-  .dependsOn(thoughtseize/*, commonProject*/)
   .settings(
     projectSettings,
     name := "Cryptic Command Server",
-    buildInfoPackage := "helloServer"
+    buildInfoPackage := "helloServer",
+    libraryDependencies ++= Seq(
+      "com.miloszjakubanis" %% "thoughtseize" % "0.0.1",
+      "com.miloszjakubanis" %% "flusterstorm" % "0.0.1",
+    ),
   )
+  .dependsOn(/*thoughtseize, flusterstorm,*/ commonProject)
 
-lazy val thoughtseize = ProjectRef(
-  uri("https://github.com/og-pixel/thoughtseize.git#master"),
-  "thoughtseize"
-)
+//lazy val thoughtseize = ProjectRef(
+//  uri("https://github.com/og-pixel/thoughtseize.git#master"),
+//  "thoughtseize"
+//)
+//
+//lazy val flusterstorm = ProjectRef(
+//  uri("https://github.com/og-pixel/flusterstorm.git#master"),
+//  "flusterstorm"
+//)
 
 lazy val crypticcommand: Project = project
   .in(file("."))
-  .aggregate(client, server)
+  .aggregate(client, server)//, flusterstorm)
