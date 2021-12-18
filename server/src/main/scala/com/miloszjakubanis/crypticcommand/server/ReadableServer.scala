@@ -41,49 +41,13 @@ object ReadableServer extends StrictLogging {
 class ReadableServer(
     val database: Database with UserControl,
     val serverConfig: ServerConfig
-) extends AutoCloseable
-    with StrictLogging {
+) extends StrictLogging {
 
   ReadableServer.ensureProgramsInstalled()
 
   val root: Path = database.location()
 
   private[this] val portIn = Integer.parseInt(serverConfig.portIn)
-
-  private[this] val bossGroup: EventLoopGroup = new NioEventLoopGroup()
-  private[this] val group: EventLoopGroup = new NioEventLoopGroup()
-
-  private[this] val initialiser: ChannelInitializer[SocketChannel] =
-    (ch: SocketChannel) => {
-      ch.pipeline()
-        .addLast(
-          new ServerRequestDecoder(),
-          new ServerResponseDataEncoder(),
-          new ServerProcessingHandler()
-        )
-    }
-
-  val channel: Channel = obtainChannel
-
-  override def close(): Unit = {
-    group.shutdownGracefully()
-    bossGroup.shutdownGracefully()
-  }
-
-  def obtainChannel: Channel = {
-    val b = new ServerBootstrap()
-    b.group(bossGroup, group)
-      .channel(classOf[NioServerSocketChannel])
-      .childHandler(initialiser)
-      .option(ChannelOption.SO_BACKLOG, new java.lang.Integer(128))
-      .childOption(ChannelOption.SO_KEEPALIVE, java.lang.Boolean.TRUE)
-
-    val f : ChannelFuture = b.bind(portIn).sync()
-    //TODO it does make it not wait
-//    f.channel().closeFuture().sync()
-
-    f.channel()
-  }
 
   //TODO somehow make sure that it is clear that this function is slow as fuck
   def downloadArticle(url: URL): Try[String] ={
@@ -98,11 +62,6 @@ class ReadableServer(
   }
 
   def saveArticle(article: Article): Unit = {
-
-
-//    article.content.
-    // database.writeBytes("default", article.id, article)
-
 
   }
 
