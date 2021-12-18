@@ -19,9 +19,6 @@ object DefaultParser {
 
   val config: Config = ConfigFactory.load().withFallback(defaultConfigValue)
 
-  val z = "asdasd"
-  z.toString
-
   val parser: OptionParser[Config] =
     new scopt.OptionParser[Config](BuildInfo.name) {
       head(BuildInfo.name, BuildInfo.version)

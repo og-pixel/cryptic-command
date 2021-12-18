@@ -13,6 +13,8 @@ import java.net.URL
 import java.nio.file.Path
 import scala.sys.process._
 import scala.util.{Failure, Success, Try}
+import com.miloszjakubanis.crypticcommand.user.User
+import com.miloszjakubanis.crypticcommand.article.Article
 
 object ReadableServer extends StrictLogging {
 
@@ -37,7 +39,7 @@ object ReadableServer extends StrictLogging {
 }
 
 class ReadableServer(
-    val database: Database,
+    val database: Database with UserControl,
     val serverConfig: ServerConfig
 ) extends AutoCloseable
     with StrictLogging {
@@ -95,8 +97,14 @@ class ReadableServer(
     }
   }
 
-  def runJob(job: Job[_, _]): Unit = {
+  def saveArticle(article: Article): Unit = {
+
+
+//    article.content.
+    // database.writeBytes("default", article.id, article)
+
 
   }
+
 
 }

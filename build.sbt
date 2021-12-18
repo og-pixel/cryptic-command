@@ -1,13 +1,12 @@
 import sbtbuildinfo.BuildInfoPlugin.autoImport.buildInfoPackage
 
 lazy val Scala_2 = "2.13.7"
-lazy val Scala_3 = "3.1.0"
 lazy val projectSettings = Seq(
   buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
   buildInfoOptions += BuildInfoOption.ToMap,
   organization := "com.miloszjakubanis",
   scalaVersion := Scala_2,
-  version := "0.0.1",
+  version := "0.0.1-SNAPSHOT",
   libraryDependencies ++= Seq(
     "com.github.scopt" %% "scopt" % "4.0.1",
     //Create config files and CLI
@@ -22,10 +21,10 @@ lazy val projectSettings = Seq(
     //Circe for JSon Parsing
     "io.circe" %% "circe-core" % "0.14.1",
     "io.circe" %% "circe-generic" % "0.14.1",
-    "io.circe" %% "circe-parser" % "0.14.1"
+    "io.circe" %% "circe-parser" % "0.14.1",
+    "com.miloszjakubanis" %% "thoughtseize" % "0.0.2-SNAPSHOT" changing (),
+    "com.miloszjakubanis" %% "flusterstorm" % "0.0.1-SNAPSHOT" changing ()
   ),
-//  githubOwner := "supermanue",
-//  githubRepository := "example-library",
   testFrameworks += new TestFramework("utest.runner.Framework"),
   scalacOptions ++= Seq(
     "-feature",
@@ -34,64 +33,57 @@ lazy val projectSettings = Seq(
     "-unchecked"
   ),
   packMain := Map("hello" -> "com.miloszjakubanis.crypticcommand.Main"),
-  resolvers := Seq(
-    "Sonatype Nexus Repository Manager" at s"https://artifact.miloszjakubanis.com/repository/milosz/",
-  ),
+
+  resolvers := {
+    Seq(
+      "releases" at "https://artifact.miloszjakubanis.com/repository/earth/",
+      "snapshots" at "https://artifact.miloszjakubanis.com/repository/moon/",
+    )
+  },
   //Credentials
-  credentials += Credentials(new File(Path.userHome.absolutePath + "/.nexus/credentials"))
+  versionScheme := Some("early-semver"),
+  publishMavenStyle := true,
+  credentials += Credentials(
+    new File(Path.userHome.absolutePath + "/.nexus/credentials")
+  ),
+  publishTo := Some("Sonatype Nexus Repository Manager" at {
+    if (isSnapshot.value)
+      s"https://artifact.miloszjakubanis.com/repository/moon"
+    else
+      s"https://artifact.miloszjakubanis.com/repository/earth"
+  })
 )
 
 //Projects
 lazy val commonProject: Project = project
   .in(file("common"))
-  .enablePlugins(PackPlugin)
-  .enablePlugins(BuildInfoPlugin)
+  .enablePlugins(PackPlugin, BuildInfoPlugin)
   .settings(
     projectSettings,
     name := "Cryptic Command Common Library",
-    buildInfoPackage := "helloCommon"
+    buildInfoPackage := "helloCommon",
   )
 
 lazy val client: Project = project
   .in(file("client"))
-  .enablePlugins(PackPlugin)
-  .enablePlugins(BuildInfoPlugin)
-  .dependsOn(/*thoughtseize,*/ commonProject)
+  .enablePlugins(PackPlugin, BuildInfoPlugin)
+  .dependsOn(commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Client",
-    buildInfoPackage := "helloClient",
-    libraryDependencies ++= Seq(
-      "com.miloszjakubanis" %% "thoughtseize" % "0.0.1",
-      "com.miloszjakubanis" %% "flusterstorm" % "0.0.1",
-    ),
+    buildInfoPackage := "helloClient"
   )
 
 lazy val server: Project = project
   .in(file("server"))
-  .enablePlugins(PackPlugin)
-  .enablePlugins(BuildInfoPlugin)
+  .enablePlugins(PackPlugin, BuildInfoPlugin)
+  .dependsOn(commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Server",
-    buildInfoPackage := "helloServer",
-    libraryDependencies ++= Seq(
-      "com.miloszjakubanis" %% "thoughtseize" % "0.0.1",
-      "com.miloszjakubanis" %% "flusterstorm" % "0.0.1",
-    ),
+    buildInfoPackage := "helloServer"
   )
-  .dependsOn(/*thoughtseize, flusterstorm,*/ commonProject)
-
-//lazy val thoughtseize = ProjectRef(
-//  uri("https://github.com/og-pixel/thoughtseize.git#master"),
-//  "thoughtseize"
-//)
-//
-//lazy val flusterstorm = ProjectRef(
-//  uri("https://github.com/og-pixel/flusterstorm.git#master"),
-//  "flusterstorm"
-//)
 
 lazy val crypticcommand: Project = project
   .in(file("."))
-  .aggregate(client, server)//, flusterstorm)
+  .aggregate(client, server)

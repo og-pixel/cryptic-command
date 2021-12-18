@@ -245,7 +245,7 @@ bin/
 /lib/
 /logs/
 /modules
-/project/project/
+/project/project
 /project/target/
 /target
 test-result
@@ -263,7 +263,6 @@ lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
-project/target/
 .history
 .lib/
 .bsp
