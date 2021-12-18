@@ -1,3 +1,4 @@
+import sbt.Keys.libraryDependencies
 import sbtbuildinfo.BuildInfoPlugin.autoImport.buildInfoPackage
 
 lazy val Scala_2 = "2.13.7"
@@ -12,7 +13,7 @@ lazy val projectSettings = Seq(
     //Create config files and CLI
     "com.typesafe" % "config" % "1.4.1",
     //Netty Async Network Library
-    "io.netty" % "netty-all" % "4.1.59.Final",
+//    "io.netty" % "netty-all" % "4.1.59.Final",
     //Logback
     "ch.qos.logback" % "logback-classic" % "1.2.6",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
@@ -22,6 +23,7 @@ lazy val projectSettings = Seq(
     "io.circe" %% "circe-core" % "0.14.1",
     "io.circe" %% "circe-generic" % "0.14.1",
     "io.circe" %% "circe-parser" % "0.14.1",
+    //Personal
     "com.miloszjakubanis" %% "thoughtseize" % "0.0.2-SNAPSHOT" changing (),
     "com.miloszjakubanis" %% "flusterstorm" % "0.0.1-SNAPSHOT" changing ()
   ),
@@ -76,11 +78,15 @@ lazy val client: Project = project
 
 lazy val server: Project = project
   .in(file("server"))
-  .enablePlugins(PackPlugin, BuildInfoPlugin)
+  .enablePlugins(PackPlugin, BuildInfoPlugin, PlayScala)
   .dependsOn(commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Server",
+    libraryDependencies ++= Seq(
+        guice
+    ),
+
     buildInfoPackage := "helloServer"
   )
 

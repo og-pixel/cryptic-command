@@ -17,11 +17,12 @@ object DownloadArticleSpec extends TestSuite with StrictLogging {
         val server = new ReadableServer(db, new ServerConfig(c))
         val content = server.downloadArticle(new URL("https://www.scala-lang.org/api/current/scala/sys/process/index.html"))
 
-        server.close()
+//        server.close()
         assert(content.isSuccess)
       }
 
       DefaultParser(Array[String]("-pi", "9999"), start)
     }
   }
+
 }
