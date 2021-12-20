@@ -25,7 +25,9 @@ lazy val projectSettings = Seq(
     "io.circe" %% "circe-parser" % "0.14.1",
     //Personal
     "com.miloszjakubanis" %% "thoughtseize" % "0.0.2-SNAPSHOT" changing (),
-    "com.miloszjakubanis" %% "flusterstorm" % "0.0.1-SNAPSHOT" changing ()
+    "com.miloszjakubanis" %% "flusterstorm" % "0.0.1-SNAPSHOT" changing (),
+    //Terminal GUI
+    "com.googlecode.lanterna" % "lanterna" % "3.1.1"
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   scalacOptions ++= Seq(
@@ -35,11 +37,10 @@ lazy val projectSettings = Seq(
     "-unchecked"
   ),
   packMain := Map("hello" -> "com.miloszjakubanis.crypticcommand.Main"),
-
   resolvers := {
     Seq(
       "releases" at "https://artifact.miloszjakubanis.com/repository/earth/",
-      "snapshots" at "https://artifact.miloszjakubanis.com/repository/moon/",
+      "snapshots" at "https://artifact.miloszjakubanis.com/repository/moon/"
     )
   },
   //Credentials
@@ -63,7 +64,7 @@ lazy val commonProject: Project = project
   .settings(
     projectSettings,
     name := "Cryptic Command Common Library",
-    buildInfoPackage := "helloCommon",
+    buildInfoPackage := "helloCommon"
   )
 
 lazy val client: Project = project
@@ -84,9 +85,8 @@ lazy val server: Project = project
     projectSettings,
     name := "Cryptic Command Server",
     libraryDependencies ++= Seq(
-        guice
+      guice
     ),
-
     buildInfoPackage := "helloServer"
   )
 
