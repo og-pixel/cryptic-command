@@ -1,8 +1,16 @@
 version: '3'
 services: 
+
   cryptic:
     image: miloszjakubanis/cryptic:latest
     container_name: cryptic
-    volumes:
-      - "/home/og_pixel/data:/data"
+    ports:
+      - 9000:9000
+#   volumes:
+#     - "/home/og_pixel/data:/data"
         #    restart: unless-stopped
+  redis:
+    image: redis:latest
+    container_name: redis
+    depends_on: 
+      - cryptic

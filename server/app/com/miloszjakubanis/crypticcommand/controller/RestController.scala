@@ -15,11 +15,12 @@ class RestController @Inject() (
 ) extends BaseController {
 
   def index() = Action { implicit request: Request[AnyContent] =>
-    val z = connection.redisClient.get("Tom")
-    z match {
-      case Some(value) => Ok(value)
-      case None        => Ok("error")
-    }
+//    val z = connection.redisClient.get("Tom")
+//    z match {
+//      case Some(value) => Ok(value)
+//      case None        => Ok("error")
+//    }
+    Ok("Hello World")
   }
 
   implicit def reads(json: JsValue): JsResult[Person] = {

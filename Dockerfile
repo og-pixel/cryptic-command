@@ -16,7 +16,11 @@ RUN npm install -g readability-cli
 
 RUN mkdir /data
 
-COPY target/pack /srv/myapp
+#COPY target/pack /srv/myapp
+COPY server/target/universal/cryptic-command-server-0.0.1-SNAPSHOT/ /srv/myapp/
+#RUN unzip /srv/myapp/cryptic-command-server-0.0.1-SNAPSHOT.zip /srv/myapp/
+EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "./srv/myapp/bin/hello"]
+#ENTRYPOINT ["sh", "-c", "./srv/myapp/bin/hello"]
+ENTRYPOINT ["sh", "-c", "./srv/myapp/bin/cryptic-command-server"]
 
