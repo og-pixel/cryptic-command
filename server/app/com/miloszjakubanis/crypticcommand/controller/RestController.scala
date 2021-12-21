@@ -32,7 +32,6 @@ class RestController @Inject() (
   def postIndex() = Action { implicit request: Request[AnyContent] =>
     val json = request.body.asJson.get
     val person = json.as[Person](reads)
-    println(person)
     connection.redisClient.set(person.name, person)
     Ok(s"Written object $person")
   }
