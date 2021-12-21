@@ -60,19 +60,19 @@ lazy val projectSettings = Seq(
 )
 
 //Projects
-lazy val commonProject: Project = project
-  .in(file("common"))
-  .enablePlugins(PackPlugin, BuildInfoPlugin)
-  .settings(
-    projectSettings,
-    name := "Cryptic Command Common Library",
-    buildInfoPackage := "helloCommon"
-  )
+//lazy val commonProject: Project = project
+//  .in(file("common"))
+//  .enablePlugins(PackPlugin, BuildInfoPlugin)
+//  .settings(
+//    projectSettings,
+//    name := "Cryptic Command Common Library",
+//    buildInfoPackage := "helloCommon"
+//  )
 
 lazy val client: Project = project
   .in(file("client"))
   .enablePlugins(PackPlugin, BuildInfoPlugin)
-  .dependsOn(commonProject)
+//  .dependsOn(commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Client",
@@ -82,7 +82,7 @@ lazy val client: Project = project
 lazy val server: Project = project
   .in(file("server"))
   .enablePlugins(PackPlugin, BuildInfoPlugin, PlayScala)
-  .dependsOn(commonProject)
+//  .dependsOn(commonProject)
   .settings(
     projectSettings,
     name := "Cryptic Command Server",
