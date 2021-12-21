@@ -1,4 +1,4 @@
-package com.miloszjakubanis.crypticcommand.user.permission
+package com.miloszjakubanis.crypticcommand.model.user.permission
 
 import scala.collection.mutable
 

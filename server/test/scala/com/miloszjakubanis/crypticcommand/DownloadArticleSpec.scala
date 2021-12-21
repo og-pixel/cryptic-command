@@ -1,12 +1,12 @@
 //package com.miloszjakubanis.crypticcommand
 
-import com.miloszjakubanis.crypticcommand.server.{ReadableServer, ServerConfig}
-import com.miloszjakubanis.thoughtseize.storage.{FSDatabase, Location, LocationPlace}
-import com.typesafe.config.Config
-import utest._
-import com.typesafe.scalalogging.StrictLogging
+//import com.miloszjakubanis.crypticcommand.server.ServerConfig
+//import com.miloszjakubanis.thoughtseize.storage.{FSDatabase, Location, LocationPlace}
+//import com.typesafe.config.Config
+//import utest._
+//import com.typesafe.scalalogging.StrictLogging
 
-import java.net.URL
+//import java.net.URL
 
 //object DownloadArticleSpec extends TestSuite with StrictLogging {
 
