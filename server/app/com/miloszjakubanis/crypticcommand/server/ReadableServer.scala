@@ -12,6 +12,7 @@ import com.miloszjakubanis.crypticcommand.user.{AbstractUser, User}
 import com.miloszjakubanis.crypticcommand.article.Article
 import com.miloszjakubanis.crypticcommand.user.permission.UserPermission
 import com.redis.RedisClient
+import play.api.Configuration
 //import io.circe._
 //import io.circe.generic.auto._
 //import io.circe.parser._
@@ -45,11 +46,7 @@ object ReadableServer extends StrictLogging {
 }
 
 @Singleton
-class ReadableServer @Inject() (val controllerComponents: ControllerComponents)
-//                               (
-//    val database: Database,
-//    val serverConfig: ServerConfig
-//)
+class ReadableServer @Inject() (val controllerComponents: ControllerComponents, val config: Configuration)
   extends BaseController
     with StrictLogging {
 
@@ -59,7 +56,7 @@ class ReadableServer @Inject() (val controllerComponents: ControllerComponents)
   val database = new FSDatabase(Location("tmp-1", LocationPlace.TMP))
   val root: Path = database.location()
 
-//  private[this] val portIn = Integer.parseInt(serverConfig.portIn)
+  private[this] val portIn = Integer.parseInt(config.get[String]("port.in"))
 
   def uuid = java.util.UUID.randomUUID.toString
 
@@ -81,11 +78,9 @@ class ReadableServer @Inject() (val controllerComponents: ControllerComponents)
   def saveArticle(article: Article): Unit = {}
 
   def index() = Action { implicit request: Request[AnyContent] =>
-//    Ok(com.miloszjakubanis.crypticcommand.views.html.index())
-//    val content = A("Milosz", 1, Array("hello", "world"))
-//    Ok(database.readJson[A]("default", "1"))
     val a = new RedisClient("localhost", 8081)
     a.set("key", "SuperValue")
+    println(config.get[String]("port.in"))
 
     a.get("key") match {
       case Some(value) => Ok(s"Found value: $value")

@@ -11,18 +11,18 @@ lazy val projectSettings = Seq(
   libraryDependencies ++= Seq(
     "com.github.scopt" %% "scopt" % "4.0.1",
     //Create config files and CLI
-    "com.typesafe" % "config" % "1.4.1",
+//    "com.typesafe" % "config" % "1.4.1",
     //Netty Async Network Library
 //    "io.netty" % "netty-all" % "4.1.59.Final",
     //Logback
-    "ch.qos.logback" % "logback-classic" % "1.2.6",
-    "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
+//    "ch.qos.logback" % "logback-classic" % "1.2.6",
+//    "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
     //Testing Framework
     "com.lihaoyi" %% "utest" % "latest.integration" % Test,
     //Circe for JSon Parsing
-    "io.circe" %% "circe-core" % "0.14.1",
-    "io.circe" %% "circe-generic" % "0.14.1",
-    "io.circe" %% "circe-parser" % "0.14.1",
+//    "io.circe" %% "circe-core" % "0.14.1",
+//    "io.circe" %% "circe-generic" % "0.14.1",
+//    "io.circe" %% "circe-parser" % "0.14.1",
     //Personal
     "com.miloszjakubanis" %% "thoughtseize" % "0.0.2-SNAPSHOT" changing (),
     "com.miloszjakubanis" %% "flusterstorm" % "0.0.2-SNAPSHOT" changing (),
