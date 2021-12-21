@@ -245,8 +245,11 @@ bin/
 /lib/
 /logs/
 /modules
-/project/project
+/project/project/
 /project/target/
+/project/project
+/project/target
+
 /target
 test-result
 server.pid

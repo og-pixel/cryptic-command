@@ -1,6 +1,10 @@
 package com.miloszjakubanis.crypticcommand.user
 
+import com.miloszjakubanis.crypticcommand.user.permission.UserPermission
+
+
 trait User {
   val userName: String
   val userID: Int
+  val permission: UserPermission
 }
