@@ -247,8 +247,9 @@ bin/
 /modules
 /project/project/
 /project/target/
-/project/project
-/project/target
+/project/project/*
+/project/target/*
+
 
 /target
 test-result
