@@ -1,0 +1,13 @@
+@import com.miloszjakubanis.crypticcommand.model.UserDAO
+
+@(users: Seq[UserDAO], form: Form[UserDAO], url: Call)(implicit request: MessagesRequestHeader) {
+
+  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.RegisterController.registerPost) {
+    @helper.CSRF.formField
+
+    @helper.inputText(form("username"))
+
+    @helper.inputText(form("password"))
+    <button>Submit</button>
+  }
+}

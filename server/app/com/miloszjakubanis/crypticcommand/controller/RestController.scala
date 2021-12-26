@@ -7,6 +7,7 @@ import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
 
 import javax.inject.{Inject, Singleton}
 
+
 @Singleton
 class RestController @Inject() (
     val controllerComponents: ControllerComponents,
@@ -15,12 +16,13 @@ class RestController @Inject() (
 ) extends BaseController {
 
   def index() = Action { implicit request: Request[AnyContent] =>
-    connection.redisClient.set("Tom", "[Some value]")
-    val z = connection.redisClient.get("Tom")
-    z match {
-      case Some(value) => Ok("Hello World: " + value)
-      case None        => Ok("Hello World")
-    }
+//    connection.redisClient.set("Tom", "[Some value]")
+//    val z = connection.redisClient.get("Tom")
+//    z match {
+//      case Some(value) => Ok("Hello World: " + value)
+//      case None        => Ok("Hello World")
+//    }
+    Ok(com.miloszjakubanis.crypticcommand.views.html.index())
   }
 
   implicit def reads(json: JsValue): JsResult[Person] = {
