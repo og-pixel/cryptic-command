@@ -1,15 +1,15 @@
 //package com.miloszjakubanis.crypticcommand
-
+//
 //import com.miloszjakubanis.crypticcommand.server.ServerConfig
 //import com.miloszjakubanis.thoughtseize.storage.{FSDatabase, Location, LocationPlace}
 //import com.typesafe.config.Config
 //import utest._
 //import com.typesafe.scalalogging.StrictLogging
-
+//
 //import java.net.URL
-
+//
 //object DownloadArticleSpec extends TestSuite with StrictLogging {
-
+//
 //  override def tests: Tests = Tests {
 //    test("hello world") - {
 //      def start(c: Config): Unit = {
@@ -24,5 +24,5 @@
 //      DefaultParser(Array[String]("-pi", "9999"), start)
 //    }
 //  }
-
+//
 //}
