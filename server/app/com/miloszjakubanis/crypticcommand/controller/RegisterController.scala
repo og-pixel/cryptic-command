@@ -1,7 +1,7 @@
 package com.miloszjakubanis.crypticcommand.controller
 
 import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
-import com.miloszjakubanis.crypticcommand.external.Redis
+import com.miloszjakubanis.crypticcommand.external.RedisServer
 import com.miloszjakubanis.crypticcommand.model.UserDAO
 import play.api.Configuration
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, MessagesAbstractController, MessagesControllerComponents, MessagesRequest, Request}
@@ -18,7 +18,7 @@ import scala.collection.mutable.ArrayBuffer
 class RegisterController @Inject() (
     controllerComponents: MessagesControllerComponents,
     val config: Configuration,
-    val connection: Redis
+    val connection: RedisServer
 ) extends MessagesAbstractController(controllerComponents) {
 
   val mainPostUrl = routes.RegisterController.registerPage()

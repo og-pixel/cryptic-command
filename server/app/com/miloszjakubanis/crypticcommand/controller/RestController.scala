@@ -1,7 +1,6 @@
 package com.miloszjakubanis.crypticcommand.controller
 
-import com.miloszjakubanis.crypticcommand.ReadableServer
-import com.miloszjakubanis.crypticcommand.external.Redis
+import com.miloszjakubanis.crypticcommand.external.{ReadableServer, RedisServer}
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import play.api.Configuration
 import play.api.libs.json.{JsObject, JsResult, JsSuccess, JsValue}
@@ -19,10 +18,11 @@ import scala.util.{Failure, Success}
 
 @Singleton
 class RestController @Inject() (
-    val controllerComponents: ControllerComponents,
-    val config: Configuration,
-    val connection: Redis,
-    implicit val ec: ExecutionContext
+                                 val controllerComponents: ControllerComponents,
+                                 val config: Configuration,
+                                 val connection: RedisServer,
+                                 val readableServer: ReadableServer,
+                                 implicit val ec: ExecutionContext
 ) extends BaseController {
 
   def index() = Action { implicit request: Request[AnyContent] =>
@@ -36,33 +36,16 @@ class RestController @Inject() (
 //      val content = Files.readAllBytes(Paths.get("/home/og_pixel/dotfiles.tar"))
 //      println(new String(content))
 //      Ok("hello")//.as("application/x-tar")
-    val onCloseFun: () => Unit = () => {
-      Files.delete(Paths.get("/tmp/file.tar"))
-      println("*********************On Close************************")
+    val ser = readableServer
+    val address = "https://www.jetbrains.com/help/idea/edit-scala-code.html#type_hints"
+
+    val res = ser.ArticleProcessor.downloadArticle(new URL(address))
+    res.onComplete {
+      case Failure(exception) => println(s"THIS SHOULD NOT HAPPEN: $exception")
+      case Success(value) => ser.ArticleProcessor.downloadAllImages(value)
     }
 
-    val ser = new ReadableServer()
-
-    val address = "https://www.jetbrains.com/help/idea/edit-scala-code.html#type_hints"
-//    val address = "https://rarehistoricalphotos.com/vending-machines-vintage-pictures/"
-    val res = ser.downloadArticle(new URL(address)).get
-
-    val doc: Document = Jsoup.parse(res)
-    val z = doc.select("img")
-    println("FOUND**************************************")
-
-//    z.forEach(e => println(e.select("[attr=src]")))
-    z.forEach(e => {
-      e.attr("src", "This is a test replacement for text")
-      e.attr("data-gif-src", "GIF REPLACEMENT")
-//      e.append("<h5>This is a test replacement for text</h5>")
-      println(e.toString)
-    })
-
-    println("END**************************************")
-
-
-    Files.copy(Paths.get("/home/og_pixel/dotfiles.tar"), Paths.get("/tmp/file.tar"), StandardCopyOption.REPLACE_EXISTING)
+//    Files.copy(Paths.get("/home/og_pixel/dotfiles.tar"), Paths.get("/tmp/file.tar"), StandardCopyOption.REPLACE_EXISTING)
 //    Ok.sendFile(new java.io.File("/tmp/file.tar"), onClose = onCloseFun)
     Ok("hello")
   }
@@ -81,15 +64,16 @@ class RestController @Inject() (
   }
 
   def postArticle() = Action { implicit request => //: Request[AnyContent] =>
-    val server = new ReadableServer()
-    val res = server.downloadArticle(new URL(request.body.asText.get))
-    res match {
-      case Failure(exception) => Ok(s"Failure:\n  $exception")
-      case Success(value) => {
-        val content = Files.readAllBytes(Paths.get("/home/og_pixel/dotfiles.tar"))
-        Ok(content).as("application/x-tar")
-      }
-    }
+//    val server = readableServer
+//    val res = server.downloadArticle(new URL(request.body.asText.get))
+//    res match {
+//      case Failure(exception) => Ok(s"Failure:\n  $exception")
+//      case Success(value) => {
+//        val content = Files.readAllBytes(Paths.get("/home/og_pixel/dotfiles.tar"))
+//        Ok(content).as("application/x-tar")
+//      }
+//    }
+    Ok("")
   }
 
   case class Person(name: String, age: Int)

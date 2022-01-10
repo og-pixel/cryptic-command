@@ -5,7 +5,7 @@ import play.api.data.Forms.{mapping, nonEmptyText, text}
 
 object UserDAO {
 
-  val userForm = Form(
+  val userForm: Form[UserDAO] = Form(
     mapping(
       "username" -> nonEmptyText,
       "password"  -> nonEmptyText
@@ -13,5 +13,4 @@ object UserDAO {
   )
 }
 
-case class UserDAO (name: String, password: String) {
-}
+case class UserDAO (name: String, password: String)
