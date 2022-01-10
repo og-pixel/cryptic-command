@@ -2,13 +2,17 @@ package com.miloszjakubanis.crypticcommand.controller
 
 import com.miloszjakubanis.crypticcommand.ReadableServer
 import com.miloszjakubanis.crypticcommand.external.Redis
+import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import play.api.Configuration
 import play.api.libs.json.{JsObject, JsResult, JsSuccess, JsValue}
 import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
+import scala.xml.parsing.XhtmlParser
 import java.io.File
 import java.net.URL
-import java.nio.file.{Files, Paths}
+import java.nio.file.{CopyOption, Files, Paths, StandardCopyOption}
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
@@ -32,7 +36,29 @@ class RestController @Inject() (
 //      val content = Files.readAllBytes(Paths.get("/home/og_pixel/dotfiles.tar"))
 //      println(new String(content))
 //      Ok("hello")//.as("application/x-tar")
-    Ok.sendFile(new java.io.File("/home/og_pixel/dotfiles.tar"))
+    val onCloseFun: () => Unit = () => {
+      Files.delete(Paths.get("/tmp/file.tar"))
+      println("*********************On Close************************")
+    }
+
+    val ser = new ReadableServer()
+
+    val address = "https://www.jetbrains.com/help/idea/edit-scala-code.html#type_hints"
+//    val address = "https://rarehistoricalphotos.com/vending-machines-vintage-pictures/"
+    val res = ser.downloadArticle(new URL(address)).get
+
+    val doc: Document = Jsoup.parse(res)
+    val z = doc.select("img")
+    println("FOUND**************************************")
+
+//    z.forEach(e => println(e.select("[attr=src]")))
+    z.forEach(e => println(e.attr("src")))
+    println("END**************************************")
+
+
+    Files.copy(Paths.get("/home/og_pixel/dotfiles.tar"), Paths.get("/tmp/file.tar"), StandardCopyOption.REPLACE_EXISTING)
+//    Ok.sendFile(new java.io.File("/tmp/file.tar"), onClose = onCloseFun)
+    Ok("hello")
   }
 
   implicit def reads(json: JsValue): JsResult[Person] = {

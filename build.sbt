@@ -29,7 +29,10 @@ lazy val projectSettings = Seq(
     //Terminal GUI
     "com.googlecode.lanterna" % "lanterna" % "3.1.1",
     //Redis API
-    "net.debasishg" %% "redisclient" % "3.41"
+    "net.debasishg" %% "redisclient" % "3.41",
+    //HTML Parser to extract images
+    "net.ruippeixotog" %% "scala-scraper" % "2.2.1",
+    "org.jsoup" % "jsoup" % "1.14.3",
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   scalacOptions ++= Seq(
