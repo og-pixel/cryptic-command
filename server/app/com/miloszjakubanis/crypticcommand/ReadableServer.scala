@@ -2,6 +2,9 @@ package com.miloszjakubanis.crypticcommand
 
 import com.miloszjakubanis.thoughtseize.storage.{FSDatabase, Location, LocationPlace}
 import com.typesafe.scalalogging.StrictLogging
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
 
 import java.net.URL
@@ -54,5 +57,22 @@ class ReadableServer extends StrictLogging {
         Failure(e)
     }
   }
+
+  implicit def stringToDocument(doc: String): Document = Jsoup.parse(doc)
+
+  def getAllImages(document: Document): Elements = document.select("img")
+
+  def createDocumentFolder() = {
+
+  }
+
+  def downloadAllImages() = {
+
+  }
+
+  def replaceSources() = {
+
+  }
+
 
 }

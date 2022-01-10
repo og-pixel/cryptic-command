@@ -52,7 +52,13 @@ class RestController @Inject() (
     println("FOUND**************************************")
 
 //    z.forEach(e => println(e.select("[attr=src]")))
-    z.forEach(e => println(e.attr("src")))
+    z.forEach(e => {
+      e.attr("src", "This is a test replacement for text")
+      e.attr("data-gif-src", "GIF REPLACEMENT")
+//      e.append("<h5>This is a test replacement for text</h5>")
+      println(e.toString)
+    })
+
     println("END**************************************")
 
 
