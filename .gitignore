@@ -247,6 +247,7 @@ bin/
 /modules
 /project/project/
 /project/target/
+/project/target
 /project/project/*
 /project/target/*
 
