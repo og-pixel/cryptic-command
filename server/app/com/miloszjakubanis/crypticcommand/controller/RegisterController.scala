@@ -29,6 +29,10 @@ class RegisterController @Inject() (
     )
   }
 
+  val echo = Action { request =>
+    Ok("Got request [" + request + "]")
+  }
+
   def registerPage() = Action { implicit request: MessagesRequest[AnyContent] =>
     Ok(views.html.registerPage(users.toSeq, UserDAO.userForm, mainPostUrl))
   }

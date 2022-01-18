@@ -1,6 +1,7 @@
 package com.miloszjakubanis.crypticcommand.controller
 
 import com.miloszjakubanis.crypticcommand.external.{ReadableServer, RedisServer}
+import com.miloszjakubanis.crypticcommand.model.Article
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import play.api.Configuration
 import play.api.libs.json.{JsObject, JsResult, JsSuccess, JsValue}
@@ -37,18 +38,38 @@ class RestController @Inject() (
 //      println(new String(content))
 //      Ok("hello")//.as("application/x-tar")
     val ser = readableServer
-    val address = "https://www.jetbrains.com/help/idea/edit-scala-code.html#type_hints"
+    val address = "https://www.bbc.com/culture/article/20220114-the-surprising-ways-that-victorians-flirted"
+    val article = ser.downloadArticle(new URL(address))
 
-    val res = ser.ArticleProcessor.downloadArticle(new URL(address))
-    res.onComplete {
-      case Failure(exception) => println(s"THIS SHOULD NOT HAPPEN: $exception")
-      case Success(value) => ser.ArticleProcessor.downloadAllImages(value)
+    article.onComplete {
+      case Failure(exception) => ???
+      case Success(value) =>
+        ser.createArticleDirectory(value.title)
+        ser.saveArticle(value, value.title).onComplete {
+          case Failure(exception) => ???
+          case Success(value2) =>
+            ser.saveArticleImages(value).onComplete {
+              case Failure(exception) => ???
+              case Success(value3) => ser.replaceArticleImagesWithLocal(value).onComplete {
+                case Failure(exception) => ???
+                case Success(value4) => ser.saveArticle(value4, "Amended - " + value4.title)
+              }
+            }
+        }
     }
+
+
 
 //    Files.copy(Paths.get("/home/og_pixel/dotfiles.tar"), Paths.get("/tmp/file.tar"), StandardCopyOption.REPLACE_EXISTING)
 //    Ok.sendFile(new java.io.File("/tmp/file.tar"), onClose = onCloseFun)
     Ok("hello")
   }
+
+
+  //TODO for now this function is in server
+//  def downloadImages(article: Article): Unit = {
+//
+//  }
 
   implicit def reads(json: JsValue): JsResult[Person] = {
     val symbol = (json \ "name").as[String]

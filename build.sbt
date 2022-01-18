@@ -24,7 +24,7 @@ lazy val projectSettings = Seq(
 //    "io.circe" %% "circe-generic" % "0.14.1",
 //    "io.circe" %% "circe-parser" % "0.14.1",
     //Personal
-    "com.miloszjakubanis" %% "thoughtseize" % "0.0.3-SNAPSHOT" changing (),
+    "com.miloszjakubanis" %% "thoughtseize" % "0.0.4-SNAPSHOT" changing (),
     "com.miloszjakubanis" %% "flusterstorm" % "0.0.2-SNAPSHOT" changing (),
     //Terminal GUI
     "com.googlecode.lanterna" % "lanterna" % "3.1.1",
