@@ -5,66 +5,59 @@ import com.miloszjakubanis.crypticcommand.model.Article
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import play.api.Configuration
 import play.api.libs.json.{JsObject, JsResult, JsSuccess, JsValue}
-import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
+import play.api.mvc.{
+  Action,
+  AnyContent,
+  BaseController,
+  ControllerComponents,
+  Request
+}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 import scala.xml.parsing.XhtmlParser
+import java.util.zip
 import java.io.File
 import java.net.URL
 import java.nio.file.{CopyOption, Files, Paths, StandardCopyOption}
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 @Singleton
 class RestController @Inject() (
-                                 val controllerComponents: ControllerComponents,
-                                 val config: Configuration,
-                                 val connection: RedisServer,
-                                 val readableServer: ReadableServer,
-                                 implicit val ec: ExecutionContext
+    val controllerComponents: ControllerComponents,
+    val config: Configuration,
+    val connection: RedisServer,
+    val readableServer: ReadableServer,
+    implicit val ec: ExecutionContext
 ) extends BaseController {
 
-  def index() = Action { implicit request: Request[AnyContent] =>
-//    connection.redisClient.set("Tom", "[Some value]")
-//    val z = connection.redisClient.get("Tom")
-//    z match {
-//      case Some(value) => Ok("Hello World: " + value)
-//      case None        => Ok("Hello World")
-//    }
-//    Ok(com.miloszjakubanis.crypticcommand.views.html.index())
-//      val content = Files.readAllBytes(Paths.get("/home/og_pixel/dotfiles.tar"))
-//      println(new String(content))
-//      Ok("hello")//.as("application/x-tar")
-    val ser = readableServer
-    val address = "https://www.bbc.com/culture/article/20220114-the-surprising-ways-that-victorians-flirted"
-    val article = ser.downloadArticle(new URL(address))
-
-    article.onComplete {
-      case Failure(exception) => ???
-      case Success(value) =>
-        ser.createArticleDirectory(value.title)
-        ser.saveArticle(value, value.title).onComplete {
-          case Failure(exception) => ???
-          case Success(value2) =>
-            ser.saveArticleImages(value).onComplete {
-              case Failure(exception) => ???
-              case Success(value3) => ser.replaceArticleImagesWithLocal(value).onComplete {
-                case Failure(exception) => ???
-                case Success(value4) => ser.saveArticle(value4, "Amended - " + value4.title)
-              }
-            }
-        }
-    }
-
-
-
-//    Files.copy(Paths.get("/home/og_pixel/dotfiles.tar"), Paths.get("/tmp/file.tar"), StandardCopyOption.REPLACE_EXISTING)
-//    Ok.sendFile(new java.io.File("/tmp/file.tar"), onClose = onCloseFun)
-    Ok("hello")
+  def p() = Action.async { implicit request: Request[AnyContent] =>
+    Future(Ok(""))
   }
 
+  def index() = Action.async { implicit request: Request[AnyContent] =>
+
+      val ser = readableServer
+      val address = {
+//        "https://news.microsoft.com/2022/01/18/microsoft-to-acquire-activision-blizzard-to-bring-the-joy-and-community-of-gaming-to-everyone-across-every-device/"
+//        "https://www.playframework.com/documentation/2.8.x/ScalaHome"
+        "https://www.bbc.com/culture/article/20220114-the-surprising-ways-that-victorians-flirted"
+//        "https://www.gamingonlinux.com/2022/01/wii-u-emulator-cemu-plans-to-go-open-source-and-support-linux/"
+      }
+//      val article = ser.downloadArticle(new URL(address))
+
+      for {
+        article <- ser.downloadArticle(new URL(address))
+        _ <- ser.createArticleDirectory(article.title)
+        _ <- ser.saveArticleImages(article)
+        _ <- ser.replaceArticleImagesWithLocal(article)
+        _ <- ser.saveArticle(article, article.title)
+        path <- ser.zipArticle(article)
+      } yield Ok("hello")//Ok.sendFile(path.toFile)
+
+  }
 
   //TODO for now this function is in server
 //  def downloadImages(article: Article): Unit = {

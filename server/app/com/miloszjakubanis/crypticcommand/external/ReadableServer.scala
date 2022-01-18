@@ -38,10 +38,22 @@ class ReadableServer @Inject() (
 //    database.createDirectory(path.resolve("assets"))
 //  }
 
-  def createArticleDirectory(articleTitle: String): Unit = {
-    val path = Paths.get("articles").resolve(articleTitle)
-    database.createDirectory(path)
-    database.createDirectory(path.resolve("assets"))
+  def createArticleDirectory(articleTitle: String): Future[Unit] = {
+    Future {
+      val path = Paths.get("articles").resolve(articleTitle)
+      database.createDirectory(path)
+      database.createDirectory(path.resolve("assets"))
+    }
+  }
+
+  def zipArticle(article: Article): Future[Path] = {
+    Future {
+      val location = database.location.get.resolve("articles").resolve(article.title)
+      println(s"DEBUG: $location")
+
+//      (s"cd \"$location\"" #&& s"zip -rq \"${article.title}.zip\" \"assets/\" \"${article.title}.html\"").!!
+      location.resolve(article.title + ".zip")
+    }
   }
 
   //TODO somehow make sure that it is clear that this function is slow as fuck
@@ -59,17 +71,40 @@ class ReadableServer @Inject() (
   }
 
   def saveArticleImages(article: Article): Future[Unit] = {
-    Future {
-      findAllImages(article).onComplete {
-        case Failure(f) => new RuntimeException("TODO this should not happen")
-        case Success(v) => v.forEach(e => {
-          val a = e.attr("src")
-          val image = ImageIO.read(new URL(a))
-          println(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
-          ImageIO.write(image, "jpg", new File(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString))
-        })
-      }
-    }
+//    Future {
+//      findAllImages(article).onComplete {
+//        case Failure(f) => new RuntimeException("TODO this should not happen")
+//        case Success(v) => v.forEach(e => {
+//          println("hello world")
+//          val a = e.attr("src")
+//          val image = ImageIO.read(new URL(a))
+//          println(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
+//          ImageIO.write(image, "jpg", new File(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString))
+//        })
+//      }
+
+
+      findAllImages(article).collect(z => z.forEach(e => {
+        val a = e.attr("src")
+        val image = ImageIO.read(new URL(a))
+        println(s"We download from: $a")
+        println(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
+        println("SPECIAL DEBUG:    " + database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
+        ImageIO.write(image, "png", new File(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString))
+      }))
+
+//    Future {
+//      article.document.select("img").forEach(e => {
+//        val a = e.attr("src")
+//        val image = ImageIO.read(new URL(a))
+//        println(s"We download from: $a")
+//        println(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
+//        println("SPECIAL DEBUG:    " + database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
+//        ImageIO.write(image, "png", new File(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString))
+//      })
+//    }
+
+//    }
   }
 
   def replaceArticleImagesWithLocal(article: Article): Future[Article] = {
@@ -84,30 +119,32 @@ class ReadableServer @Inject() (
   }
 
   def findAllImages(article: Article): Future[Elements] = {
-    Future {
-      val z = article.document.select("img")
+    Future(article.document.select("img"))
 
-      //TODO delete
-      z.forEach(e => {
-        val a = e.attr("src")
-        //        val z = Source.fromURL(new URL(a)).mkString
-        //        Files.write(Paths.get("/tmp/play-server/img.jpg"), z.getBytes())
-        //        println(a)
-        //        (new URL(a) #> new File(s"/tmp/play-server/$a")).!!
-        //        val src = scala.io.Source.fromURL(a)
-//        val image = ImageIO.read(new URL(a))
-//        ImageIO.write(image, "jpg", new File(s"/tmp/play-server/${new File(a).getName}"))
-        //        val out = new java.io.FileWriter(s"/tmp/play-server/$i")
-        //        out.write(src.mkString)
-        //        out.close()
-
-
-        //        e.attr("src", "This is a test replacement for text")
-        //        e.attr("data-gif-src", "GIF REPLACEMENT")
-        //        println(e.toString)
-      })
-      z
-    }
+//    Future {
+//      val z = article.document.select("img")
+//
+//      //TODO delete
+//      z.forEach(e => {
+//        val a = e.attr("src")
+//        //        val z = Source.fromURL(new URL(a)).mkString
+//        //        Files.write(Paths.get("/tmp/play-server/img.jpg"), z.getBytes())
+//        //        println(a)
+//        //        (new URL(a) #> new File(s"/tmp/play-server/$a")).!!
+//        //        val src = scala.io.Source.fromURL(a)
+////        val image = ImageIO.read(new URL(a))
+////        ImageIO.write(image, "jpg", new File(s"/tmp/play-server/${new File(a).getName}"))
+//        //        val out = new java.io.FileWriter(s"/tmp/play-server/$i")
+//        //        out.write(src.mkString)
+//        //        out.close()
+//
+//
+//        //        e.attr("src", "This is a test replacement for text")
+//        //        e.attr("data-gif-src", "GIF REPLACEMENT")
+//        //        println(e.toString)
+//      })
+//      z
+//    }
   }
 
 //  def createDocumentFolder(
