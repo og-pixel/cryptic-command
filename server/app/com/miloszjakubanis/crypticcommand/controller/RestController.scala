@@ -43,8 +43,8 @@ class RestController @Inject() (
       val address = {
 //        "https://news.microsoft.com/2022/01/18/microsoft-to-acquire-activision-blizzard-to-bring-the-joy-and-community-of-gaming-to-everyone-across-every-device/"
 //        "https://www.playframework.com/documentation/2.8.x/ScalaHome"
-        "https://www.bbc.com/culture/article/20220114-the-surprising-ways-that-victorians-flirted"
-//        "https://www.gamingonlinux.com/2022/01/wii-u-emulator-cemu-plans-to-go-open-source-and-support-linux/"
+//        "https://www.bbc.com/culture/article/20220114-the-surprising-ways-that-victorians-flirted"
+        "https://www.gamingonlinux.com/2022/01/wii-u-emulator-cemu-plans-to-go-open-source-and-support-linux/"
       }
 //      val article = ser.downloadArticle(new URL(address))
 
@@ -55,7 +55,7 @@ class RestController @Inject() (
         _ <- ser.replaceArticleImagesWithLocal(article)
         _ <- ser.saveArticle(article, article.title)
         path <- ser.zipArticle(article)
-      } yield Ok("hello")//Ok.sendFile(path.toFile)
+      } yield Ok.sendFile(path.toFile)
 
   }
 

@@ -49,9 +49,10 @@ class ReadableServer @Inject() (
   def zipArticle(article: Article): Future[Path] = {
     Future {
       val location = database.location.get.resolve("articles").resolve(article.title)
-      println(s"DEBUG: $location")
 
-//      (s"cd \"$location\"" #&& s"zip -rq \"${article.title}.zip\" \"assets/\" \"${article.title}.html\"").!!
+      Process(s"zip -rq \"${article.title}.zip\" \"assets/\" \"${article.title}.html\"", location.toFile).!!
+//      val a = (s"echo \"$location\"" #&& s"zip -rq \"${article.title}.zip\" \"assets/\" \"${article.title}.html\"")
+
       location.resolve(article.title + ".zip")
     }
   }
@@ -87,9 +88,6 @@ class ReadableServer @Inject() (
       findAllImages(article).collect(z => z.forEach(e => {
         val a = e.attr("src")
         val image = ImageIO.read(new URL(a))
-        println(s"We download from: $a")
-        println(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
-        println("SPECIAL DEBUG:    " + database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString)
         ImageIO.write(image, "png", new File(database.location().resolve("articles").resolve(article.title).resolve("assets").resolve(new File(a).getName).toString))
       }))
 
