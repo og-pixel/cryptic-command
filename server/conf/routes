@@ -1,10 +1,12 @@
 GET   /     com.miloszjakubanis.crypticcommand.controller.RestController.index()
 POST  /     com.miloszjakubanis.crypticcommand.controller.RestController.postIndex()
 
+GET   /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePage()
+POST  /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePagePost()
+
 GET   /register com.miloszjakubanis.crypticcommand.controller.RegisterController.registerPage()
 POST  /register com.miloszjakubanis.crypticcommand.controller.RegisterController.registerPost()
 
-POST /article com.miloszjakubanis.crypticcommand.controller.RestController.postArticle()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

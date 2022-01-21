@@ -22,10 +22,12 @@ class RestController @Inject() (
   //Debug page
   def index() = Action.async { implicit request: Request[AnyContent] =>
 
-      val address =
-        "https://news.microsoft.com/2022/01/18/microsoft-to-acquire-activision-blizzard-to-bring-the-joy-and-community-of-gaming-to-everyone-across-every-device/"
+      val address = {
+        "https://www.wired.com/story/hours-working-vr-tips/"
+//        "https://news.microsoft.com/2022/01/18/microsoft-to-acquire-activision-blizzard-to-bring-the-joy-and-community-of-gaming-to-everyone-across-every-device/"
+      }
 
-      for {
+    for {
         article <- readableServer.downloadArticle(new URL(address))
         _ <- readableServer.createArticleDirectory(article.title)
         _ <- readableServer.saveArticleImages(article)

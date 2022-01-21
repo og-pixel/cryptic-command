@@ -1,0 +1,12 @@
+@import com.miloszjakubanis.crypticcommand.model.ArticleDAO
+
+@(form: Form[ArticleDAO], url: Call)(implicit request: MessagesRequestHeader) {
+
+  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.RegisterController.articlePagePost) {
+    @helper.CSRF.formField
+
+    @helper.inputText(form("websiteLink"))
+
+    <button>Submit</button>
+  }
+}
