@@ -250,6 +250,11 @@ bin/
 /project/target
 /project/project/*
 /project/target/*
+project/target/
+project/target
+project/project/*
+project/target/*
+
 
 
 /target

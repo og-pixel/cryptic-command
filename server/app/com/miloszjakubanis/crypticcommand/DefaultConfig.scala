@@ -20,11 +20,11 @@ class DefaultConfig extends StrictLogging {
     for (i <- programList.indices) {
       try {
         Seq(s"bash", "-c", programList(i)).!!
-        logger.debug("Program: {} exists!", programList(i))
+        logger.debug("Program: {} Exists!", programList(i))
       } catch {
         case e: Exception =>
           logger.error("Program is not installed", e)
-        //          throw new RuntimeException("Program is not installed:\n", e)
+          throw new RuntimeException("Program is not installed:\n", e)
       }
     }
   }

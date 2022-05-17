@@ -1,14 +1,7 @@
-package com.miloszjakubanis.crypticcommand.model
+package com.miloszjakubanis.crypticcommand.model.article
 
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
-import play.api.http.HttpErrorHandler
-import play.api.mvc.Results.{InternalServerError, Status}
-import play.api.mvc.{RequestHeader, Result}
-
-import java.net.URL
-import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
 //@Singleton
 //class ArticleDAOException @Inject() (implicit val ec: ExecutionContext)

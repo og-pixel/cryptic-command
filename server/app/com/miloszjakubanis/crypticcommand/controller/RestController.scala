@@ -1,6 +1,6 @@
 package com.miloszjakubanis.crypticcommand.controller
 
-import com.miloszjakubanis.crypticcommand.external.{ReadableServer, RedisServer}
+import com.miloszjakubanis.crypticcommand.external.{ReadableController, RedisServer}
 import play.api.Configuration
 import play.api.libs.json.{JsResult, JsSuccess, JsValue}
 import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
@@ -11,11 +11,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RestController @Inject() (
-    val controllerComponents: ControllerComponents,
-    val config: Configuration,
-    val connection: RedisServer,
-    val readableServer: ReadableServer,
-    implicit val ec: ExecutionContext
+                                 val controllerComponents: ControllerComponents,
+                                 val config: Configuration,
+                                 val connection: RedisServer,
+                                 val readableServer: ReadableController,
+                                 implicit val ec: ExecutionContext
 ) extends BaseController {
 
 
@@ -32,7 +32,7 @@ class RestController @Inject() (
         _ <- readableServer.createArticleDirectory(article.title)
         _ <- readableServer.saveArticleImages(article)
         _ <- readableServer.replaceArticleImagesWithLocal(article)
-        _ <- readableServer.saveArticle(article, article.title)
+        _ <- readableServer.saveArticleToDatabase(article, article.title)
         path <- readableServer.zipArticle(article)
       } yield Ok.sendFile(path.toFile)
   }
@@ -51,7 +51,7 @@ class RestController @Inject() (
           _ <- readableServer.createArticleDirectory(article.title)
           _ <- readableServer.saveArticleImages(article)
           _ <- readableServer.replaceArticleImagesWithLocal(article)
-          _ <- readableServer.saveArticle(article, article.title)
+          _ <- readableServer.saveArticleToDatabase(article, article.title)
           path <- readableServer.zipArticle(article)
         } yield Ok.sendFile(path.toFile)
       case None => Future(Ok("Value not Found"))

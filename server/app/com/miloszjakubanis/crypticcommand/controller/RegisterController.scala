@@ -1,14 +1,15 @@
 package com.miloszjakubanis.crypticcommand.controller
 
 import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
-import com.miloszjakubanis.crypticcommand.external.{ReadableServer, RedisServer}
-import com.miloszjakubanis.crypticcommand.model.{Article, ArticleDAO, UserDAO}
+import com.miloszjakubanis.crypticcommand.external.{ReadableController, RedisServer}
+import com.miloszjakubanis.crypticcommand.model.UserDAO
 import play.api.Configuration
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, MessagesAbstractController, MessagesControllerComponents, MessagesRequest, Request}
 import play.api.libs.json.{JsObject, JsResult, JsSuccess, JsValue}
 import com.miloszjakubanis.crypticcommand.views
 import play.api.data.Form
 import com.miloszjakubanis.crypticcommand.controller.routes
+import com.miloszjakubanis.crypticcommand.model.article.ArticleDAO
 
 import java.net.URL
 import javax.inject.{Inject, Singleton}
@@ -16,27 +17,25 @@ import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
+//TODO this class should register users and log them in
 @Singleton
 class RegisterController @Inject() (
-    controllerComponents: MessagesControllerComponents,
-    val config: Configuration,
-    val readableServer: ReadableServer,
-    val connection: RedisServer,
-    implicit val ec: ExecutionContext
+                                     controllerComponents: MessagesControllerComponents,
+                                     val config: Configuration,
+                                     val readableServer: ReadableController,
+                                     val connection: RedisServer,
+                                     implicit val ec: ExecutionContext
 ) extends MessagesAbstractController(controllerComponents) {
 
   val mainPostUrl = routes.RegisterController.registerPage()
   val mainArticleURL = routes.RegisterController.articlePage()
 
-  val users: ArrayBuffer[UserDAO] = {
-    ArrayBuffer(
+  val users: ArrayBuffer[UserDAO] = ArrayBuffer(
       UserDAO("test-user", "password")
     )
-  }
 
-  val articles: ArrayBuffer[ArticleDAO] = {
+  val articles: ArrayBuffer[ArticleDAO] =
     ArrayBuffer()
-  }
 
   def articlePage() = Action { implicit request: MessagesRequest[AnyContent] =>
     Ok(views.html.getArticlePage(ArticleDAO.articleForm, mainPostUrl))
@@ -44,8 +43,8 @@ class RegisterController @Inject() (
 
   def articlePagePost() = Action.async {
     implicit request: MessagesRequest[AnyContent] =>
-      val a = ArticleDAO.articleForm.bindFromRequest()
-      a.fold(
+
+      ArticleDAO.articleForm.bindFromRequest().fold(
         e => {
           println("article not extracted")
           Future(BadRequest(
@@ -53,20 +52,23 @@ class RegisterController @Inject() (
           ))
         },
         v => {
-
-          for {
-            article <- readableServer.downloadArticle(new URL(v.address))
-            _ <- readableServer.createArticleDirectory(article.title)
-            _ <- readableServer.saveArticleImages(article)
-            _ <- readableServer.replaceArticleImagesWithLocal(article)
-            _ <- readableServer.saveArticle(article, article.title)
-            path <- readableServer.zipArticle(article)
-          } yield Ok.sendFile(path.toFile)
-
-//          Redirect(mainArticleURL).flashing("info" -> "Article added!")
-//          Ok("It has failed to download article")
+          Try(new URL(v.address)).fold(e => Future(Ok(s"Fail: $e")), a => {
+            for {
+              article <- readableServer.downloadArticle(a)
+              _ <- readableServer.createArticleDirectory(article.title)
+              _ <- readableServer.saveArticleImages(article)
+              _ <- readableServer.replaceArticleImagesWithLocal(article)
+              _ <- readableServer.saveArticleToDatabase(article, article.title)
+              path <- readableServer.zipArticle(article)
+            } yield Ok.sendFile(path.toFile)
+          })
         }
       )
+  }
+
+  def loginPage() = Action {
+    implicit request: MessagesRequest[AnyContent] =>
+    Ok(views.html.loginPage())
   }
 
   def registerPage() = Action { implicit request: MessagesRequest[AnyContent] =>
@@ -83,7 +85,7 @@ class RegisterController @Inject() (
       v => {
         val user = UserDAO(v.name, v.password)
         users += user
-        println("success")
+        println(users)
         Redirect(mainPostUrl).flashing("info" -> "User added!")
       }
     )
