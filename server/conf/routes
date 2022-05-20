@@ -1,5 +1,5 @@
-GET   /     com.miloszjakubanis.crypticcommand.controller.RestController.index()
-POST  /     com.miloszjakubanis.crypticcommand.controller.RestController.postIndex()
+GET   /     com.miloszjakubanis.crypticcommand.controller.IndexController.index()
+#POST  /     com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePagePost()
 
 GET   /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePage()
 POST  /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePagePost()
@@ -9,6 +9,8 @@ POST  /register com.miloszjakubanis.crypticcommand.controller.RegisterController
 
 
 GET   /login com.miloszjakubanis.crypticcommand.controller.RegisterController.loginPage()
+
+GET   /pocket com.miloszjakubanis.crypticcommand.controller.IndexController.pocket()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

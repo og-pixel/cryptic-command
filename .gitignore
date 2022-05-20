@@ -282,3 +282,5 @@ project/plugins/project/
 
 # End of https://www.toptal.com/developers/gitignore/api/scala,metals,intellij,sbt,playframework,node
 .sbt-hydra-history
+
+.ammonite
