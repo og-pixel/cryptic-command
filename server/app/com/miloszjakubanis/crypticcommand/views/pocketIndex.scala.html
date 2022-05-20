@@ -1,40 +1,32 @@
-@()
+@import com.miloszjakubanis.crypticcommand.model.UserDAO
+
+@(users: Seq[UserDAO], form: Form[UserDAO], url: Call)(implicit request: MessagesRequestHeader)
+
+
+
 
 @components.header()
 
+
 @components.topbarNavigation()
 
-<div class="col-11">
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-    <p>Hello </p>
-</div>
+
+    <p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+
+
+<div>
+    @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketRegisterController.registerPost) {
+        @helper.CSRF.formField
+        @helper.inputText(form("username"))
+        @helper.inputText(form("password"))
+        <button>Submit</button>
+    }
+    </div>
+
+
 @components.footer()

@@ -2,7 +2,7 @@
 
 @(users: Seq[UserDAO], form: Form[UserDAO], url: Call)(implicit request: MessagesRequestHeader) {
 
-  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.RegisterController.registerPost) {
+  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketRegisterController.registerPost) {
     @helper.CSRF.formField
 
     @helper.inputText(form("username"))

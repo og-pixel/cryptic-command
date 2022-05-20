@@ -38,8 +38,5 @@ class IndexController @Inject() (
     Ok(views.html.index())
   }
 
-  def pocket() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.pocketIndex())
-  }
 
 }
