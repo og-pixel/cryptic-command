@@ -6,7 +6,7 @@ import play.api.Configuration
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class RedisServer @Inject()(private[this] val c: Configuration) {
+class RedisService @Inject()(private[this] val c: Configuration) {
 
   val redisClient = new RedisClient(
     c.get[String]("redis.host"),

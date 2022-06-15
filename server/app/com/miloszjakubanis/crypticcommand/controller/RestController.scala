@@ -1,6 +1,6 @@
 package com.miloszjakubanis.crypticcommand.controller
 
-import com.miloszjakubanis.crypticcommand.external.{ReadableController, RedisServer}
+import com.miloszjakubanis.crypticcommand.external.{ReadableService, RedisService}
 import play.api.Configuration
 import play.api.libs.json.{JsResult, JsSuccess, JsValue}
 import play.api.mvc.{AnyContent, BaseController, ControllerComponents, Request}
@@ -13,8 +13,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class RestController @Inject() (
                                  val controllerComponents: ControllerComponents,
                                  val config: Configuration,
-                                 val connection: RedisServer,
-                                 val readableServer: ReadableController,
+                                 val connection: RedisService,
+                                 val readableServer: ReadableService,
                                  implicit val ec: ExecutionContext
 ) extends BaseController {
 

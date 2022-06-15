@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.sys.process._
 
 @Singleton
-class ReadableController @Inject()(
+class ReadableService @Inject()(
     val config: Configuration,
     implicit val ec: ExecutionContext,
 ) extends StrictLogging {

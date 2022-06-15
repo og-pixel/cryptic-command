@@ -90,7 +90,10 @@ lazy val server: Project = project
     projectSettings,
     name := "Cryptic Command Server",
     libraryDependencies ++= Seq(
-      guice
+      guice,
+      jdbc,
+      "mysql" % "mysql-connector-java" % "8.0.29",
+//      "com.h2database" % "h2" % "2.1.212",
     ),
     buildInfoPackage := "helloServer"
   )

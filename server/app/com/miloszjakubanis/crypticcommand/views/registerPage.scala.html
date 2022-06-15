@@ -2,12 +2,10 @@
 
 @(users: Seq[UserDAO], form: Form[UserDAO], url: Call)(implicit request: MessagesRequestHeader) {
 
-  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketRegisterController.registerPost) {
+  @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketController.pocketRegisterPost) {
     @helper.CSRF.formField
-
     @helper.inputText(form("username"))
-
-    @helper.inputText(form("password"))
+    @helper.inputPassword(form("password"))
     <button>Submit</button>
   }
 }

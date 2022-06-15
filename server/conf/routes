@@ -1,19 +1,11 @@
-GET   /     com.miloszjakubanis.crypticcommand.controller.IndexController.index()
-#POST  /     com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePagePost()
+GET         /                       com.miloszjakubanis.crypticcommand.controller.IndexController.indexGet()
+GET         /pocket                 com.miloszjakubanis.crypticcommand.controller.PocketController.pocketIndexGet()
 
-#GET   /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePage()
-#POST  /article com.miloszjakubanis.crypticcommand.controller.RegisterController.articlePagePost()
+GET         /pocket/register        com.miloszjakubanis.crypticcommand.controller.PocketController.pocketRegisterGet()
+POST        /pocket/register        com.miloszjakubanis.crypticcommand.controller.PocketController.pocketRegisterPost()
 
-#GET   /register com.miloszjakubanis.crypticcommand.controller.RegisterController.registerPage()
-#POST  /register com.miloszjakubanis.crypticcommand.controller.RegisterController.registerPost()
-
-
-#GET   /login com.miloszjakubanis.crypticcommand.controller.RegisterController.loginPage()
-
-GET   /pocket com.miloszjakubanis.crypticcommand.controller.PocketRegisterController.pocket()
-
-GET   /pocket/register com.miloszjakubanis.crypticcommand.controller.PocketRegisterController.registerPage()
-POST   /pocket/register com.miloszjakubanis.crypticcommand.controller.PocketRegisterController.registerPost()
+GET         /pocket/login           com.miloszjakubanis.crypticcommand.controller.PocketController.pocketLoginGet()
+POST        /pocket/login           com.miloszjakubanis.crypticcommand.controller.PocketController.pocketLoginPost()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

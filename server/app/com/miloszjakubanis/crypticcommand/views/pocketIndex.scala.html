@@ -11,7 +11,7 @@
 @components.topbarNavigation()
 
 
-    <p>1</p>
+<p>1</p>
 <p>1</p>
 <p>1</p>
 <p>1</p>
@@ -20,13 +20,25 @@
 
 
 <div>
-    @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketRegisterController.registerPost) {
+    Register
+    @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketController.pocketRegisterPost) {
         @helper.CSRF.formField
         @helper.inputText(form("username"))
-        @helper.inputText(form("password"))
-        <button>Submit</button>
+        @helper.inputPassword(form("password"))
+        <button>Register</button>
     }
-    </div>
+</div>
+
+
+<div>
+    Login
+    @helper.form(action = com.miloszjakubanis.crypticcommand.controller.routes.PocketController.pocketLoginPost) {
+        @helper.CSRF.formField
+        @helper.inputText(form("username"))
+        @helper.inputPassword(form("password"))
+        <button>Login</button>
+    }
+</div>
 
 
 @components.footer()
