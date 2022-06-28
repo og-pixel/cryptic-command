@@ -21,11 +21,11 @@ class RestController @Inject() (
 
 
 
-  implicit def reads(json: JsValue): JsResult[Person] = {
-    val symbol = (json \ "name").as[String]
-    val price = (json \ "age").as[Int]
-    JsSuccess(Person(symbol, price))
-  }
+//  implicit def reads(json: JsValue): JsResult[Person] = {
+//    val symbol = (json \ "name").as[String]
+//    val price = (json \ "age").as[Int]
+//    JsSuccess(Person(symbol, price))
+//  }
 
   def postIndex() = Action.async { implicit request: Request[AnyContent] =>
     request.body.asText match {
@@ -42,5 +42,5 @@ class RestController @Inject() (
     }
   }
 
-  case class Person(name: String, age: Int)
+//  case class Person(name: String, age: Int)
 }

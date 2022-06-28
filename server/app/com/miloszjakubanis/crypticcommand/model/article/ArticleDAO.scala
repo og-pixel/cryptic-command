@@ -30,13 +30,6 @@ object ArticleDAO {
     )(ArticleDAO.apply)(ArticleDAO.unapply)
   )
 
-//  def unapply(article: ArticleDAO): Option[String] = Some(
-//    article.address.toString
-//  )
-//
-//  def apply(address: String): ArticleDAO = {
-//    ArticleDAO(new URL(address))
-//  }
 }
 
-case class ArticleDAO(address: String) {}
+case class ArticleDAO(address: String)
