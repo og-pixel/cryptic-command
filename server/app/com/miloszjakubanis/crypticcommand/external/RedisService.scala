@@ -6,10 +6,12 @@ import play.api.Configuration
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class RedisService @Inject()(private[this] val c: Configuration) {
+class RedisService @Inject() (
+    private[this] val config: Configuration
+) {
 
   val redisClient = new RedisClient(
-    c.get[String]("redis.host"),
-    c.get[Int]("redis.port")
+    config.get[String]("redis.host"),
+    config.get[Int]("redis.port")
   )
 }
