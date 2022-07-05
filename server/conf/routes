@@ -1,10 +1,10 @@
 GET         /                       com.miloszjakubanis.crypticcommand.controller.IndexController.indexGet()
 GET         /pocket                 com.miloszjakubanis.crypticcommand.controller.PocketController.pocketIndexGet()
 
-GET         /pocket/register        com.miloszjakubanis.crypticcommand.controller.PocketController.pocketRegisterGet()
+GET         /pocket/register        com.miloszjakubanis.crypticcommand.controller.PocketController.pocketIndexGet()
 POST        /pocket/register        com.miloszjakubanis.crypticcommand.controller.PocketController.pocketRegisterPost()
 
-GET         /pocket/login           com.miloszjakubanis.crypticcommand.controller.PocketController.pocketLoginGet()
+GET         /pocket/login           com.miloszjakubanis.crypticcommand.controller.PocketController.pocketIndexGet()
 POST        /pocket/login           com.miloszjakubanis.crypticcommand.controller.PocketController.pocketLoginPost()
 
 # Map static resources from the /public folder to the /assets URL path
