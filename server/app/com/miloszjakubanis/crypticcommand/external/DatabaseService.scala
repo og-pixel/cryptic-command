@@ -10,17 +10,20 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class DatabaseService @Inject() (
     private[this] val config: Configuration,
+    val readableServer: ArticleManipulationService,
     val db: Database
 ) {
 
   def registerUser(user: User): Boolean = {
-    if(userExists(user)) false
+    if (userExists(user)) false
     else {
       db.withConnection { conn =>
 //        val hashedPassword = crypticcommand.md5HashPassword(user.password)
-        conn.prepareStatement(
-          s"INSERT INTO users (login, password) VALUES ('${user.login}', '${user.password}');"
-        ).execute()
+        conn
+          .prepareStatement(
+            s"INSERT INTO users (login, password) VALUES ('${user.login}', '${user.password}');"
+          )
+          .execute()
       }
     }
   }
@@ -36,14 +39,27 @@ class DatabaseService @Inject() (
 
   private def findUser(user: User): Option[User] = {
     db.withConnection { conn =>
-      val result = conn.prepareStatement(
-        s"SELECT * FROM `users` WHERE login='${user.login}' AND password='${user.password}';"
-      ).executeQuery()
+      val result = conn
+        .prepareStatement(
+          s"SELECT * FROM `users` WHERE login='${user.login}' AND password='${user.password}';"
+        )
+        .executeQuery()
 
       //TODO make sure it actually happens
       //TODO so far so good
-      if(result.next()) Option(user)
+      if (result.next()) Option(user)
       else Option.empty
     }
   }
+
+  @Singleton
+  class ArticleDatabaseService @Inject() (
+      private[this] val config: Configuration,
+      val articleManipulationService: ArticleManipulationService,
+      val db: Database
+  ) {
+
+
+  }
+
 }

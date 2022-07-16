@@ -12,13 +12,14 @@ import java.io.File
 import java.net.URL
 import java.nio.file.{Path, Paths}
 import javax.imageio.ImageIO
-import javax.inject.{Inject, Singleton}
+import javax.inject.{Inject, Singleton, Named}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.sys.process._
 
 @Singleton
-class ReadableService @Inject()(
+class ArticleManipulationService @Inject()(
     val config: Configuration,
+//    val database: FSDatabase,
     implicit val ec: ExecutionContext,
 ) extends StrictLogging {
 

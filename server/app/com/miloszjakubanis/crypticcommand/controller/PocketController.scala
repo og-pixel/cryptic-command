@@ -1,6 +1,6 @@
 package com.miloszjakubanis.crypticcommand.controller
 
-import com.miloszjakubanis.crypticcommand.external.{DatabaseService, ReadableService, RedisService}
+import com.miloszjakubanis.crypticcommand.external.{DatabaseService, ArticleManipulationService}
 import com.miloszjakubanis.crypticcommand.model.User
 import com.miloszjakubanis.crypticcommand.views
 import play.api.Configuration
@@ -14,9 +14,6 @@ import scala.concurrent.ExecutionContext
 class PocketController @Inject() (
     controllerComponents: MessagesControllerComponents,
     val config: Configuration,
-    val readableServer: ReadableService,
-    val redisService: RedisService,
-    val db: Database,
     val dbService: DatabaseService,
     implicit val ec: ExecutionContext
 ) extends MessagesAbstractController(controllerComponents) {
@@ -39,10 +36,10 @@ class PocketController @Inject() (
 
   def pocketLoginPost(): Action[AnyContent] = Action {
     implicit request: MessagesRequest[AnyContent] =>
-      val a = User.userForm.bindFromRequest()
-      a.fold(
-        e => {
-          BadRequest(views.html.pocketIndex(e, mainPostUrl))
+      val res = User.userForm.bindFromRequest()
+      res.fold(
+        err => {
+          BadRequest(views.html.pocketIndex(err, mainPostUrl))
         },
         user => {
           val res = dbService.loginUser(user)
